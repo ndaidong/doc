@@ -9,7 +9,11 @@
 
   var ENV = typeof module !== 'undefined' && module.exports ? 'node' : 'browser';
 
-  var vd = {
+  var D = {
+    ENV: ENV
+  };
+
+  var vD = {
     ENV: ENV
   };
 
@@ -20,29 +24,74 @@
     return v instanceof HTMLElement;
   };
 
-  var D = document;
-  var DC = D.createElement;
-  var DE = D.documentElement;
+  var trim = (s, all) => {
+    if (!isString(s)) {
+      return '';
+    }
+    let x = s ? s.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '') : s || '';
+    if (x && all) {
+      return x.replace(/\r?\n|\r/g, ' ').replace(/\s\s+|\r/g, ' ');
+    }
+    return x;
+  };
 
+  // real DOM
   var _get, _add, _create, _query, _queryAll;
 
   _get = (el) => {
-    let p = (isString(el) ? D.getElementById(el) : el) || null;
+    let p = (isString(el) ? document.getElementById(el) : el) || null;
     if (p && isElement(p)) {
       let pc = p.classList;
       p.hasClass = (c) => {
+        c = trim(c, true);
+        if (!c) {
+          return false;
+        }
         return pc.contains(c);
       };
       p.addClass = (c) => {
-        pc.add(c);
+        c = trim(c, true);
+        if (!c) {
+          return false;
+        }
+        let a = c.split(' ');
+        if (a.length > 1) {
+          a.forEach((s) => {
+            pc.add(s);
+          });
+        } else {
+          pc.add(c);
+        }
         return p;
       };
       p.removeClass = (c) => {
-        pc.remove(c);
+        c = trim(c, true);
+        if (!c) {
+          return false;
+        }
+        let a = c.split(' ');
+        if (a.length > 1) {
+          a.forEach((s) => {
+            pc.remove(s);
+          });
+        } else {
+          pc.remove(c);
+        }
         return p;
       };
       p.toggleClass = (c) => {
-        pc.toggle(c);
+        c = trim(c, true);
+        if (!c) {
+          return false;
+        }
+        let a = c.split(' ');
+        if (a.length > 1) {
+          a.forEach((s) => {
+            pc.toggle(s);
+          });
+        } else {
+          pc.toggle(c);
+        }
         return p;
       };
       p.empty = () => {
@@ -66,18 +115,18 @@
   };
 
   _add = (tag, parent) => {
-    let p = parent ? _get(parent) : D.body;
-    let d = isElement(tag) ? tag : DC(tag);
+    let p = parent ? _get(parent) : document.body;
+    let d = isElement(tag) ? tag : document.createElement(tag);
     p.appendChild(d);
     return _get(d);
   };
 
   _create = (tag) => {
-    return _get(D.createElement(tag));
+    return _get(document.createElement(tag));
   };
 
   _query = (c) => {
-    let el, tmp = D.querySelector(c);
+    let el, tmp = document.querySelector(c);
     if (tmp) {
       el = _get(tmp);
     }
@@ -85,7 +134,7 @@
   };
 
   _queryAll = (c) => {
-    let els = [], tmp = D.querySelectorAll(c);
+    let els = [], tmp = document.querySelectorAll(c);
     if (tmp) {
       for (let i = 0; i < tmp.length; i++) {
         els.push(_get(tmp[i]));
@@ -95,27 +144,27 @@
   };
 
   var onready = (fn) => {
-    let rt = D.readyState;
+    let rt = document.readyState;
     if (rt !== 'loading') {
       setTimeout(fn, 0);
     } else {
-      D.addEventListener('DOMContentLoaded', fn);
+      document.addEventListener('DOMContentLoaded', fn);
     }
   };
 
-  vd.ready = onready;
-  vd.one = _query;
-  vd.all = _queryAll;
-  vd.get = _get;
-  vd.add = _add;
-  vd.create = _create;
+  D.ready = onready;
+  D.one = _query;
+  D.all = _queryAll;
+  D.get = _get;
+  D.add = _add;
+  D.create = _create;
 
   (() => {
     let atag = _create('A');
-    atag.href = D.URL;
+    atag.href = document.URL;
     let loc = atag.hostname;
     atag.destroy();
-    vd.hostname = loc;
+    D.hostname = loc;
   })();
 
   let isGecko = ((ua) => {
@@ -123,7 +172,7 @@
     return /gecko/i.test(n);
   })(navigator.userAgent);
 
-  vd.Event = (() => {
+  D.Event = (() => {
 
     return {
       on: (element, event, callback) => {
@@ -150,11 +199,11 @@
       },
       simulate: (element, event) => {
         let evt, el = isString(element) ? _get(element) : element;
-        if (D.createEventObject) {
-          evt = D.createEventObject();
+        if (document.createEventObject) {
+          evt = document.createEventObject();
           el.fireEvent('on' + event, evt);
         } else {
-          evt = D.createEvent('HTMLEvents');
+          evt = document.createEvent('HTMLEvents');
           evt.initEvent(event, true, true);
           el.dispatchEvent(evt);
         }
@@ -180,7 +229,7 @@
     };
   })();
 
-  vd.getMousePosition = (ev) => {
+  D.getMousePosition = (ev) => {
     let e = ev || window.event;
     let cursor = {
       x: 0,
@@ -190,25 +239,25 @@
       cursor.x = e.pageX;
       cursor.y = e.pageY;
     } else {
-      let de = DE;
-      let db = D.body;
+      let de = document.documentElement;
+      let db = document.body;
       cursor.x = e.clientX + (de.scrollLeft || db.scrollLeft) - (de.clientLeft || 0);
       cursor.y = e.clientY + (de.scrollTop || db.scrollTop) - (de.clientTop || 0);
     }
     return cursor;
   };
 
-  vd.getWindowSize = () => {
+  D.getWindowSize = () => {
     let w = 0, h = 0;
     if (window.innerWidth) {
       w = window.innerWidth;
       h = window.innerHeight;
-    } else if (DE && DE.clientWidth) {
-      w = DE.clientWidth;
-      h = DE.clientHeight;
-    } else if (D.body) {
-      w = D.body.clientWidth;
-      h = D.body.clientHeight;
+    } else if (document.documentElement && document.documentElement.clientWidth) {
+      w = document.documentElement.clientWidth;
+      h = document.documentElement.clientHeight;
+    } else if (document.body) {
+      w = document.body.clientWidth;
+      h = document.body.clientHeight;
     }
     return {
       width: w,
@@ -216,16 +265,91 @@
     };
   };
 
+
+  // virtual DOM
+
+  var createId = (leng, prefix) => {
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    chars += chars.toLowerCase();
+    chars += '0123456789';
+    let t = chars.length;
+    let px = prefix || '';
+    let ln = Math.max(leng || 32, px.length);
+    let s = px;
+    while (s.length < ln) {
+      let k = Math.floor(Math.random() * t);
+      s += chars.charAt(k) || '';
+    }
+    return s;
+  };
+
+  var vBranches = new Map();
+
+  var parseHTML = (s) => {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(s, 'text/xml');
+    console.log(doc); // eslint-disable-line
+    return [];
+  };
+
+  var parseAttributes = (node) => { // eslint-disable-line
+    let o = Object.create({});
+    return o;
+  };
+
+  class vElement {
+    constructor(el, attrs, entries) {
+
+      let id = createId(16);
+      let rdom = _get(el) || _add('DIV');
+      rdom.setAttribute('tagid', id);
+
+      this.rdom = rdom;
+      this.tagId = id;
+      this.attributes = attrs || parseAttributes(rdom);
+      this.entries = entries || parseHTML(rdom.html());
+
+      vBranches.set(id, this);
+      return this;
+    }
+
+    html(s) {
+      this.html = parseHTML(s);
+      return this;
+    }
+
+    setAttribute(k, v) {
+      this.attributes[k] = v;
+      return this;
+    }
+
+    clean() {
+      this.entries = [];
+      return this;
+    }
+  }
+
+  vD.create = (el, attrs, entries) => {
+    return new vElement(el, attrs, entries);
+  };
+
   // exports
   if (ENV === 'node') {
-    module.exports = vd;
+    module.exports = {
+      DOM: D,
+      vDOM: vD
+    };
   } else {
     let root = window || {};
     if (root.define && root.define.amd) {
       root.define(() => {
-        return vd;
+        return {
+          DOM: D,
+          vDOM: vD
+        };
       });
     }
-    root.DOM = vd;
+    root.DOM = D;
+    root.vDOM = vD;
   }
 })();

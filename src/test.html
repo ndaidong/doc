@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Manual test</title>
+  </head>
+  <body xmlns="http://www.w3.org/1999/xhtml">
+    <div id="hello">
+      Hello world
+      <div class="noop">
+        <span>Who are you</span>
+      </div>
+    </div>
+    <script type="text/javascript" src="vdom.js"></script>
+    <script type="text/javascript">
+      DOM.ready(() => {
+        var a = vDOM.create('hello');
+        a.setAttribute('title', 'Hello');
+        console.log(a); // eslint-disable-line
+      });
+    </script>
+  </body>
+</html>
