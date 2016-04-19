@@ -1,7 +1,52 @@
 # vdom
 DOM &amp; Virtual DOM
 
-## Actual DOM manipulation
+## Usage
+
+
+##### SystemJS
+
+```
+System.config({
+  baseURL: '/path/to/vdom.js/folder',
+  map: {
+    vdom: 'vdom'
+  }
+});
+
+System.import('vdom').then(function(exp){
+  let DOM = exp.DOM;
+  let vDOM = exp.vDOM;
+  // use DOM and vDOM here
+});
+```
+
+##### RequireJS
+
+```
+require.config({
+  baseUrl: '/path/to/vdom.js/folder',
+  paths: {
+    vdom: 'vdom'
+  }
+});
+
+requirejs('vdom', function(exp){
+  let DOM = exp.DOM;
+  let vDOM = exp.vDOM;
+  // use DOM and vDOM here
+});
+
+```
+
+
+##### CDN
+
+```
+<script type="text/javascript" src="https://cdn.rawgit.com/ndaidong/vdom/master/dist/vdom.min.js"></script>
+```
+
+## Actual DOM APIs
 
 #### Basic methods
 
@@ -79,7 +124,7 @@ DOM.ready(function(){
 ```
 
 
-## Virtual DOM manipulation
+## Virtual DOM APIs
 
 #### Basic methods
 
@@ -117,4 +162,10 @@ For an instance:
 </script>
 ```
 
-Virtual DOM is very basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
+Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
+
+
+
+# License
+
+The MIT License (MIT)
