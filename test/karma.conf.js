@@ -9,8 +9,7 @@ module.exports = (config) => {
     autoWatch: false,
     singleRun: true,
     browsers: [
-      'Chrome',
-      'Firefox'
+      'Chrome'
     ],
     files: [
       '../src/vdom.js' , 'specs/*.js'
