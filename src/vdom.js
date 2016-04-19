@@ -61,12 +61,6 @@
   var isString = (val) => {
     return !isNull(val) && tof(val) === 'string';
   };
-  var isArray = (val) => {
-    return !isNull(val) && tof(val) === 'array';
-  };
-  var isObject = (val) => {
-    return !isNull(val) && tof(val) === 'object';
-  };
   var isFunction = (val) => {
     return !isNull(val) && tof(val) === 'function';
   };
@@ -351,6 +345,11 @@
   var Virtual = new Map();
   var Mirror = new Map();
 
+  var clone = (o) => {
+    let s = JSON.stringify(o);
+    return JSON.parse(s);
+  };
+
   var saveMap = (id, vdom) => {
     Actual.set(id, null);
     Mirror.set(id, null);
@@ -384,18 +383,10 @@
       if (hasProperty(attrs, k)) {
         let v = attrs[k];
         if (k === 'text') {
-          a.html(v);
+          let t = document.createTextNode(v);
+          a.appendChild(t);
         } else if (isString(v)) {
           a.setAttribute(k, v);
-        } else if (k === 'style') {
-          let sa = [];
-          for (let k1 in v) {
-            if (v[k1]) {
-              let v1 = v[k1];
-              sa.push([ k1, v1 ].join(':'));
-            }
-          }
-          a.setAttribute(k, sa.join(';'));
         }
       }
     }
@@ -424,65 +415,28 @@
     }
   };
 
-  var clone = (source, deep) => {
-    var o, prop, type;
-    if (typeof source !== 'object' || source === null) {
-      o = source;
-      return o;
-    }
-    o = new source.constructor();
-    for (prop in source) {
-      if (source.hasOwnProperty(prop)) {
-        type = typeof source[prop];
-        if (deep && type === 'object' && source[prop] !== null) {
-          o[prop] = clone(source[prop]);
-        } else {
-          o[prop] = source[prop];
-        }
-      }
-    }
-    return o;
-  };
-
   class vElement {
 
     constructor(tag, attrs, events, entries) {
 
       let id = createId(16);
-      let el = _get(tag) || _create('DIV');
+      let el = _get(tag) || _create(tag);
 
       el.empty();
 
-      this.tagName = tag;
+      this.tagName = el.tagName;
       this.tagId = id;
       this.attributes = attrs || Object.create(null);
 
       let evs = [];
-
-      if (isArray(events)) {
-        events.forEach((item) => {
-          for (let k in item) {
-            if (hasProperty(item, k)) {
-              let fn = item[k];
-              if (isFunction(fn)) {
-                evs.push({
-                  name: k,
-                  callback: fn
-                });
-              }
-            }
-          }
-        });
-      } else if (isObject(events)) {
-        for (let k in events) {
-          if (hasProperty(events, k)) {
-            let fn = events[k];
-            if (isFunction(fn)) {
-              evs.push({
-                name: k,
-                callback: fn
-              });
-            }
+      for (let k in events) {
+        if (hasProperty(events, k)) {
+          let fn = events[k];
+          if (isFunction(fn)) {
+            evs.push({
+              name: k,
+              callback: fn
+            });
           }
         }
       }
@@ -544,16 +498,21 @@
       return removed;
     }
 
-    sync(target) {
+    render(target) {
+
       let el = _get(target);
+      let tagId = this.tagId;
+
+      if (!el) {
+        el = D.one(`[tagId="${tagId}"]`);
+      }
+
       if (el) {
-        let tagId = this.tagId;
+        el.empty();
         el.setAttribute('tagId', tagId);
-
         render(this.nodeList, el);
-
         Actual.set(tagId, el);
-        Mirror.set(tagId, clone(this, true));
+        Mirror.set(tagId, clone(this));
       }
     }
 

@@ -14,27 +14,29 @@
         let ul = a.append('ul');
         ul.setAttribute('class', 'nano');
         for (var i = 0; i < 5; i++){
-          ul.append('li', {id: 'li_' + i, style: 'color: red', text: 'This is li ' + i});
+          ul.append('li', {id: 'li_' + i, text: 'This is li ' + i});
         }
         a.insert('span', {
           text: 'Hello world',
-        },
-        [{
+        }, {
           click: () => {
             alert('Hello world');
           }
-        }]).setEvent('click', () => {
+        }).setEvent('click', () => {
           console.log(1000)
         });
         a.append('footer', {text: '@footer'});
         console.log(a); // eslint-disable-line
 
-        a.sync('hello');
+        a.render('hello');
 
         let h = a.insert('header', {text: '@header'});
 
         var x = vDOM.getFull(a.tagId);
         console.log(x);
+        setTimeout(() => {
+          a.render();
+        }, 1000)
       });
     </script>
   </body>
