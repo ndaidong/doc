@@ -1,0 +1,38 @@
+{
+  "version": "0.0.1",
+  "name": "vdom",
+  "description": "DOM & Virtual DOM Manipulation",
+  "homepage": "http://techpush.net",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ndaidong/vdom.git"
+  },
+  "author": "Dong Nguyen <ndaidong@gmail.com> (https://twitter.com/ndaidong)",
+  "main": "./index.js",
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "scripts": {
+    "build": "node build/minify"
+  },
+  "devDependencies": {
+    "colors": "latest",
+    "mkdirp": "latest",
+    "request": "latest"
+  },
+  "keywords": [
+    "dom",
+    "actual dom",
+    "virtual dom",
+    "manipulation",
+    "templating",
+    "util"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    "ndaidong <ndaidong@gmail.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/ndaidong/vdom/issues"
+  }
+}
