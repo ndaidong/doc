@@ -79,7 +79,7 @@ Returned elements have several helpful methods as below:
 - DOM.Event.locate(Event e)
 
 
-### Examples:
+Examples:
 
 
 ```
