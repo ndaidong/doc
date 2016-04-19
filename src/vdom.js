@@ -17,58 +17,17 @@
     ENV: ENV
   };
 
-  var tof = (v) => {
-    let ots = Object.prototype.toString;
-    let s = typeof v;
-    if (s === 'object') {
-      if (v) {
-        if (ots.call(v).indexOf('HTML') !== -1 && ots.call(v).indexOf('Element') !== -1) {
-          return 'element';
-        }
-        if (v instanceof Array ||
-          (
-            !(v instanceof Object) &&
-            ots.call(v) === '[object Array]' ||
-            typeof v.length === 'number' && typeof v.splice !== 'undefined' &&
-            typeof v.propertyIsEnumerable !== 'undefined' && !v.propertyIsEnumerable('splice')
-          )
-        ) {
-          return 'array';
-        }
-        if (!(v instanceof Object) &&
-          (ots.call(v) === '[object Function]' ||
-          typeof v.call !== 'undefined' &&
-           typeof v.propertyIsEnumerable !== 'undefined' &&
-            !v.propertyIsEnumerable('call')
-          )
-        ) {
-          return 'function';
-        }
-      }
-      return 'object';
-    } else if (s === 'function' && typeof v.call === 'undefined') {
-      return 'object';
-    }
-    return s;
+  var isDef = (v) => {
+    return v !== 'undefined';
   };
-
-  var isDef = (val) => {
-    return tof(val) !== 'undefined';
+  var isString = (v) => {
+    return typeof v === 'string';
   };
-  var isNull = (val) => {
-    return tof(val) === null || val === null;
+  var isElement = (v) => {
+    return v instanceof HTMLElement;
   };
-  var isString = (val) => {
-    return !isNull(val) && tof(val) === 'string';
-  };
-  var isFunction = (val) => {
-    return !isNull(val) && tof(val) === 'function';
-  };
-  var isElement = (val) => {
-    if (val && ENV === 'node' && val._root) {
-      return true;
-    }
-    return !isNull(val) && tof(val) === 'element';
+  var isFunction = (v) => {
+    return v && {}.toString.call(v) === '[object Function]';
   };
 
   var hasProperty = (ob, k) => {
@@ -217,20 +176,12 @@
   D.add = _add;
   D.create = _create;
 
-  (() => {
-    let atag = _create('A');
-    atag.href = document.URL;
-    let loc = atag.hostname;
-    atag.destroy();
-    D.hostname = loc;
-  })();
-
-  let isGecko = ((ua) => {
-    let n = ua.toLowerCase();
-    return /gecko/i.test(n);
-  })(navigator.userAgent);
-
   D.Event = (() => {
+
+    let isGecko = ((ua) => {
+      let n = ua.toLowerCase();
+      return /gecko/i.test(n);
+    })(navigator.userAgent);
 
     return {
       on: (element, event, callback) => {
@@ -276,7 +227,7 @@
         }
         return false;
       },
-      detect: (e) => {
+      locate: (e) => {
         let evt = e || window.event;
         let targ = evt.target || evt.srcElement;
         if (targ && targ.nodeType === 3) {
