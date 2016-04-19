@@ -9,14 +9,6 @@
 
   var ENV = typeof module !== 'undefined' && module.exports ? 'node' : 'browser';
 
-  var D = {
-    ENV: ENV
-  };
-
-  var vD = {
-    ENV: ENV
-  };
-
   var isDef = (v) => {
     return v !== 'undefined';
   };
@@ -52,7 +44,31 @@
     return x;
   };
 
+  var createId = (leng, prefix) => {
+    let rn = () => {
+      return Math.random().toString(36).slice(2);
+    };
+    let a = [];
+    while (a.length < 10) {
+      a.push(rn());
+    }
+    let r = a.join('');
+    let t = r.length;
+    let px = prefix || '';
+    let ln = Math.max(leng || 32, px.length);
+    let s = px;
+    while (s.length < ln) {
+      let k = Math.floor(Math.random() * t);
+      s += r.charAt(k) || '';
+    }
+    return s;
+  };
+
   // real DOM
+  var RD = {
+    ENV: ENV
+  };
+
   var _get, _add, _create, _query, _queryAll;
 
   _get = (el) => {
@@ -169,14 +185,14 @@
     }
   };
 
-  D.ready = onready;
-  D.one = _query;
-  D.all = _queryAll;
-  D.get = _get;
-  D.add = _add;
-  D.create = _create;
+  RD.ready = onready;
+  RD.one = _query;
+  RD.all = _queryAll;
+  RD.get = _get;
+  RD.add = _add;
+  RD.create = _create;
 
-  D.Event = (() => {
+  RD.Event = (() => {
 
     let isGecko = ((ua) => {
       let n = ua.toLowerCase();
@@ -238,7 +254,7 @@
     };
   })();
 
-  D.getMousePosition = (ev) => {
+  RD.getMousePosition = (ev) => {
     let e = ev || window.event;
     let cursor = {
       x: 0,
@@ -256,7 +272,7 @@
     return cursor;
   };
 
-  D.getWindowSize = () => {
+  RD.getWindowSize = () => {
     let w = 0, h = 0;
     if (window.innerWidth) {
       w = window.innerWidth;
@@ -276,20 +292,8 @@
 
 
   // virtual DOM
-
-  var createId = (leng, prefix) => {
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    chars += chars.toLowerCase();
-    chars += '0123456789';
-    let t = chars.length;
-    let px = prefix || '';
-    let ln = Math.max(leng || 32, px.length);
-    let s = px;
-    while (s.length < ln) {
-      let k = Math.floor(Math.random() * t);
-      s += chars.charAt(k) || '';
-    }
-    return s;
+  var VD = {
+    ENV: ENV
   };
 
   var Actual = new Map();
@@ -307,11 +311,11 @@
     Virtual.set(id, vdom);
   };
 
-  vD.get = (id) => {
+  VD.get = (id) => {
     return Virtual.get(id);
   };
 
-  vD.getFull = (id) => {
+  VD.getFull = (id) => {
     return {
       actual: Actual.get(id),
       virtual: Virtual.get(id),
@@ -319,7 +323,7 @@
     };
   };
 
-  vD.remove = (id) => {
+  VD.remove = (id) => {
     Actual.remove(id);
     Virtual.remove(id);
     Mirror.remove(id);
@@ -346,7 +350,7 @@
     for (let k in events) {
       if (hasProperty(events, k)) {
         let v = events[k];
-        D.Event.on(a, v.name, v.callback);
+        RD.Event.on(a, v.name, v.callback);
       }
     }
 
@@ -455,7 +459,7 @@
       let tagId = this.tagId;
 
       if (!el) {
-        el = D.one(`[tagId="${tagId}"]`);
+        el = RD.one(`[tagId="${tagId}"]`);
       }
 
       if (el) {
@@ -469,27 +473,27 @@
 
   }
 
-  vD.create = (el, attrs, entries) => {
+  VD.create = (el, attrs, entries) => {
     return new vElement(el, attrs, entries);
   };
 
   // exports
   if (ENV === 'node') {
     module.exports = {
-      DOM: D,
-      vDOM: vD
+      DOM: RD,
+      vDOM: VD
     };
   } else {
     let root = window || {};
     if (root.define && root.define.amd) {
       root.define(() => {
         return {
-          DOM: D,
-          vDOM: vD
+          DOM: RD,
+          vDOM: VD
         };
       });
     }
-    root.DOM = D;
-    root.vDOM = vD;
+    root.DOM = RD;
+    root.vDOM = VD;
   }
 })();
