@@ -139,7 +139,7 @@
         return p;
       };
       p.html = (s) => {
-        if (!s) {
+        if (!isDef(s)) {
           return p.innerHTML;
         }
         p.innerHTML = s;
