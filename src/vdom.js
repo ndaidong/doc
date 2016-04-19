@@ -261,43 +261,6 @@
     };
   })();
 
-  RD.getMousePosition = (ev) => {
-    let e = ev || window.event;
-    let cursor = {
-      x: 0,
-      y: 0
-    };
-    if (e.pageX || e.pageY) {
-      cursor.x = e.pageX;
-      cursor.y = e.pageY;
-    } else {
-      let de = document.documentElement;
-      let db = document.body;
-      cursor.x = e.clientX + (de.scrollLeft || db.scrollLeft) - (de.clientLeft || 0);
-      cursor.y = e.clientY + (de.scrollTop || db.scrollTop) - (de.clientTop || 0);
-    }
-    return cursor;
-  };
-
-  RD.getWindowSize = () => {
-    let w = 0, h = 0;
-    if (window.innerWidth) {
-      w = window.innerWidth;
-      h = window.innerHeight;
-    } else if (document.documentElement && document.documentElement.clientWidth) {
-      w = document.documentElement.clientWidth;
-      h = document.documentElement.clientHeight;
-    } else if (document.body) {
-      w = document.body.clientWidth;
-      h = document.body.clientHeight;
-    }
-    return {
-      width: w,
-      height: h
-    };
-  };
-
-
   // virtual DOM
   var Actual = new Map();
   var Virtual = new Map();
