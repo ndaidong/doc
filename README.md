@@ -1,50 +1,53 @@
 # vdom
 DOM &amp; Virtual DOM
 
-## Usage
+## Virtual DOM APIs
 
+ - vDOM.create(String ID | HTMLElement tagName [, Object attrs [, Object events [, Array entries ] ] ])
+ - vDOM.get(String tagId)
+ - vDOM.getFull(String tagId)
+ - vDOM.remove(String tagId)
 
-##### SystemJS
+Example:
 
 ```
-System.config({
-  baseURL: '/path/to/vdom.js/folder',
-  map: {
-    vdom: 'vdom'
+var el = vDOM.create('DIV', {type: 'text', class: 'nano'});
+```
+
+Returned virtual element will come with several helpful methods as below:
+
+ - .setAttribute(key, value)
+ - .setEvent(eventName, callback)
+ - .insert()
+ - .append()
+ - .render(String | HTMLElement target)
+
+These methods are chainable. The interface of .insert() and .append() is similar to vDOM.create() and also returns the virtual elements. Note that, "text" is a special property in the second param, that will be presented as element's content (using textContent).
+
+For an instance:
+
+```
+<div id="header"></div>
+
+<script type="text/javascript">
+  var container = vDOM.create('DIV', {class: 'header menu'});
+  let ul = container.append('ul');
+  ul.setAttribute('class', 'sub-menu');
+  for (var i = 0; i < 5; i++){
+    ul.append('li', {id: 'li_' + i, text: 'Menu item ' + i});
   }
-});
-
-System.import('vdom').then(function(exp){
-  let DOM = exp.DOM;
-  let vDOM = exp.vDOM;
-  // use DOM and vDOM here
-});
+  ul.render('header');
+</script>
 ```
 
-##### RequireJS
+Every virtual element has a "tagId" property that is unique and can be used in the remain vDOM's methods such as *get* or *remove*. For example we can access full data related to the above *container* (virtual) element by:
 
 ```
-require.config({
-  baseUrl: '/path/to/vdom.js/folder',
-  paths: {
-    vdom: 'vdom'
-  }
-});
-
-requirejs('vdom', function(exp){
-  let DOM = exp.DOM;
-  let vDOM = exp.vDOM;
-  // use DOM and vDOM here
-});
-
+var tmp = vDOM.getFull(container.tagId);
+console.log(tmp);
 ```
 
-
-##### CDN
-
-```
-<script type="text/javascript" src="https://cdn.rawgit.com/ndaidong/vdom/master/dist/vdom.min.js"></script>
-```
+Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
 
 ## Actual DOM APIs
 
@@ -80,7 +83,6 @@ Returned elements have several helpful methods as below:
 
 
 Examples:
-
 
 ```
 DOM.ready(function(){
@@ -124,55 +126,50 @@ DOM.ready(function(){
 ```
 
 
-## Virtual DOM APIs
+## Setup
 
-#### Basic methods
 
- - vDOM.create(String ID | HTMLElement tagName [, Object attrs [, Object events [, Array entries ] ] ])
- - vDOM.get(String tagId)
- - vDOM.getFull(String tagId)
- - vDOM.remove(String tagId)
-
-Example:
+##### SystemJS
 
 ```
-var el = vDOM.create('DIV', {type: 'text', class: 'nano'});
-```
-
-Returned virtual element will come with several helpful methods as below:
-
- - .setAttribute(key, value)
- - .setEvent(eventName, callback)
- - .insert()
- - .append()
- - .render(String | HTMLElement target)
-
-These methods are chainable. The interface of .insert() and .append() is similar to vDOM.create() and also returns the virtual elements.
-
-For an instance:
-
-```
-<div id="header"></div>
-
-<script type="text/javascript">
-  var container = vDOM.create('DIV', {class: 'header menu'});
-  let ul = container.append('ul');
-  ul.setAttribute('class', 'sub-menu');
-  for (var i = 0; i < 5; i++){
-    ul.append('li', {id: 'li_' + i, text: 'Menu item ' + i});
+System.config({
+  baseURL: '/path/to/vdom.js/folder',
+  map: {
+    vdom: 'vdom'
   }
-  ul.render('header');
-</script>
+});
+
+System.import('vdom').then(function(exp){
+  let DOM = exp.DOM;
+  let vDOM = exp.vDOM;
+  // use DOM and vDOM here
+});
 ```
 
-Every virtual element has a "tagId" property that is unique and can be used in the remain vDOM's methods such as *get* or *remove*. For example we can access full data related to the above *container* (virtual) element by:
+##### RequireJS
 
 ```
-var tmp = vDOM.getFull(container.tagId);
-console.log(tmp);
+require.config({
+  baseUrl: '/path/to/vdom.js/folder',
+  paths: {
+    vdom: 'vdom'
+  }
+});
+
+requirejs('vdom', function(exp){
+  let DOM = exp.DOM;
+  let vDOM = exp.vDOM;
+  // use DOM and vDOM here
+});
+
 ```
 
-Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
+
+##### CDN
+
+```
+<script type="text/javascript" src="https://cdn.rawgit.com/ndaidong/vdom/master/dist/vdom.min.js"></script>
+```
 
 
 # License
