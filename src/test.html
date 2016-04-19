@@ -30,7 +30,11 @@
         console.log(a); // eslint-disable-line
 
         a.sync('hello');
-        a.insert('header', {text: '@header'});
+
+        let h = a.insert('header', {text: '@header'});
+
+        var x = vDOM.getFull(a.tagId);
+        console.log(x);
       });
     </script>
   </body>

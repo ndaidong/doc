@@ -55,7 +55,6 @@
   var isDef = (val) => {
     return tof(val) !== 'undefined';
   };
-
   var isNull = (val) => {
     return tof(val) === null || val === null;
   };
@@ -68,7 +67,6 @@
   var isObject = (val) => {
     return !isNull(val) && tof(val) === 'object';
   };
-
   var isFunction = (val) => {
     return !isNull(val) && tof(val) === 'function';
   };
@@ -349,13 +347,32 @@
     return s;
   };
 
-  var DOMMaster = {
-    actual: new Map(),
-    virtual: new Map(),
-    init: (id, vdom) => {
-      DOMMaster.actual.set(id, null);
-      DOMMaster.virtual.set(id, vdom);
-    }
+  var Actual = new Map();
+  var Virtual = new Map();
+  var Mirror = new Map();
+
+  var saveMap = (id, vdom) => {
+    Actual.set(id, null);
+    Mirror.set(id, null);
+    Virtual.set(id, vdom);
+  };
+
+  vD.get = (id) => {
+    return Virtual.get(id);
+  };
+
+  vD.getFull = (id) => {
+    return {
+      actual: Actual.get(id),
+      virtual: Virtual.get(id),
+      mirror: Mirror.get(id)
+    };
+  };
+
+  vD.remove = (id) => {
+    Actual.remove(id);
+    Virtual.remove(id);
+    Mirror.remove(id);
   };
 
   var v2a = (node, parent) => {
@@ -407,6 +424,26 @@
     }
   };
 
+  var clone = (source, deep) => {
+    var o, prop, type;
+    if (typeof source !== 'object' || source === null) {
+      o = source;
+      return o;
+    }
+    o = new source.constructor();
+    for (prop in source) {
+      if (source.hasOwnProperty(prop)) {
+        type = typeof source[prop];
+        if (deep && type === 'object' && source[prop] !== null) {
+          o[prop] = clone(source[prop]);
+        } else {
+          o[prop] = source[prop];
+        }
+      }
+    }
+    return o;
+  };
+
   class vElement {
 
     constructor(tag, attrs, events, entries) {
@@ -453,7 +490,7 @@
       this.events = evs;
       this.nodeList = entries || [];
 
-      DOMMaster.init(id, this);
+      saveMap(id, this);
 
       return this;
     }
@@ -472,12 +509,14 @@
 
     insert(tag, attrs, events, entries) {
       let n = new vElement(tag, attrs, events, entries);
+      n.parentId = this.tagId;
       this.nodeList.unshift(n);
       return n;
     }
 
     append(tag, attrs, events, entries) {
       let n = new vElement(tag, attrs, events, entries);
+      n.parentId = this.tagId;
       this.nodeList.push(n);
       return n;
     }
@@ -510,15 +549,14 @@
       if (el) {
         let tagId = this.tagId;
         el.setAttribute('tagId', tagId);
-        DOMMaster.actual.set(tagId, el);
+
         render(this.nodeList, el);
+
+        Actual.set(tagId, el);
+        Mirror.set(tagId, clone(this, true));
       }
     }
 
-    clean() {
-      this.entries = [];
-      return this;
-    }
   }
 
   vD.create = (el, attrs, entries) => {
