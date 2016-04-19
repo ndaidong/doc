@@ -20,7 +20,6 @@
     "colors": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
-    "karma-chrome-launcher": "latest",
     "karma-jasmine": "latest",
     "mkdirp": "latest",
     "request": "latest"

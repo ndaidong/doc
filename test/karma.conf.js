@@ -9,10 +9,10 @@ module.exports = (config) => {
     autoWatch: false,
     singleRun: true,
     browsers: [
-      'Chrome'
+      'PhantomJS'
     ],
     files: [
-      '../src/vdom.js' , 'specs/*.js'
+      '../dist/vdom.min.js' , 'specs/*.js'
     ],
     exclude: [],
     preprocessors: {}
