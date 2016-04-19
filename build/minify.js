@@ -26,7 +26,8 @@ var send = (source) => {
       ${API}?compilation_level=${LEVEL}&output_format=${OUTPUT}&${info}
     `;
     let data = {
-      'js_code': source
+      'js_code': source,
+      language: 'ECMASCRIPT6'
     };
 
     return request.post(target, { form: data }, (err, response, body) => {
@@ -70,7 +71,10 @@ var minify = () => {
       exec('rm -rf ' + DIST);
       exec('mkdir ' + DIST);
       let fileOut = DIST + 'vdom.min.js';
-      fs.writeFileSync(fileOut, json.compiledCode, 'utf8');
+
+      let s1 = fs.readFileSync('./build/es6-collections.js');
+      let s2 = json.compiledCode;
+      fs.writeFileSync(fileOut, s1 + s2, 'utf8');
       log.success('File has been minified');
     }
   }).catch((err) => {
