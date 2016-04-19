@@ -17,11 +17,77 @@
     ENV: ENV
   };
 
-  var isString = (v) => {
-    return typeof v === 'string';
+  var tof = (v) => {
+    let ots = Object.prototype.toString;
+    let s = typeof v;
+    if (s === 'object') {
+      if (v) {
+        if (ots.call(v).indexOf('HTML') !== -1 && ots.call(v).indexOf('Element') !== -1) {
+          return 'element';
+        }
+        if (v instanceof Array ||
+          (
+            !(v instanceof Object) &&
+            ots.call(v) === '[object Array]' ||
+            typeof v.length === 'number' && typeof v.splice !== 'undefined' &&
+            typeof v.propertyIsEnumerable !== 'undefined' && !v.propertyIsEnumerable('splice')
+          )
+        ) {
+          return 'array';
+        }
+        if (!(v instanceof Object) &&
+          (ots.call(v) === '[object Function]' ||
+          typeof v.call !== 'undefined' &&
+           typeof v.propertyIsEnumerable !== 'undefined' &&
+            !v.propertyIsEnumerable('call')
+          )
+        ) {
+          return 'function';
+        }
+      }
+      return 'object';
+    } else if (s === 'function' && typeof v.call === 'undefined') {
+      return 'object';
+    }
+    return s;
   };
-  var isElement = (v) => {
-    return v instanceof HTMLElement;
+
+  var isDef = (val) => {
+    return tof(val) !== 'undefined';
+  };
+
+  var isNull = (val) => {
+    return tof(val) === null || val === null;
+  };
+  var isString = (val) => {
+    return !isNull(val) && tof(val) === 'string';
+  };
+  var isArray = (val) => {
+    return !isNull(val) && tof(val) === 'array';
+  };
+  var isObject = (val) => {
+    return !isNull(val) && tof(val) === 'object';
+  };
+
+  var isFunction = (val) => {
+    return !isNull(val) && tof(val) === 'function';
+  };
+  var isElement = (val) => {
+    if (val && ENV === 'node' && val._root) {
+      return true;
+    }
+    return !isNull(val) && tof(val) === 'element';
+  };
+
+  var hasProperty = (ob, k) => {
+    if (!ob || !k) {
+      return false;
+    }
+    let r = true;
+    if (!isDef(ob[k])) {
+      r = k in ob;
+    }
+    return r;
   };
 
   var trim = (s, all) => {
@@ -283,44 +349,170 @@
     return s;
   };
 
-  var vBranches = new Map();
-
-  var parseHTML = (s) => {
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(s, 'text/xml');
-    console.log(doc); // eslint-disable-line
-    return [];
+  var DOMMaster = {
+    actual: new Map(),
+    virtual: new Map(),
+    init: (id, vdom) => {
+      DOMMaster.actual.set(id, null);
+      DOMMaster.virtual.set(id, vdom);
+    }
   };
 
-  var parseAttributes = (node) => { // eslint-disable-line
-    let o = Object.create({});
-    return o;
+  var v2a = (node, parent) => {
+    let a = parent ? _add(node.tagName, parent) : _create(node.tagName);
+    a.setAttribute('tagId', node.tagId);
+
+    let attrs = node.attributes;
+    for (let k in attrs) {
+      if (hasProperty(attrs, k)) {
+        let v = attrs[k];
+        if (k === 'text') {
+          a.html(v);
+        } else if (isString(v)) {
+          a.setAttribute(k, v);
+        } else if (k === 'style') {
+          let sa = [];
+          for (let k1 in v) {
+            if (v[k1]) {
+              let v1 = v[k1];
+              sa.push([ k1, v1 ].join(':'));
+            }
+          }
+          a.setAttribute(k, sa.join(';'));
+        }
+      }
+    }
+
+    let events = node.events;
+    for (let k in events) {
+      if (hasProperty(events, k)) {
+        let v = events[k];
+        D.Event.on(a, v.name, v.callback);
+      }
+    }
+
+    let ls = node.nodeList;
+    if (ls.length > 0) {
+      for (let i = 0; i < ls.length; i++) {
+        let n = ls[i];
+        v2a(n, a);
+      }
+    }
+  };
+
+  var render = (nodes, target) => {
+    for (let i = 0; i < nodes.length; i++) {
+      let n = nodes[i];
+      v2a(n, target);
+    }
   };
 
   class vElement {
-    constructor(el, attrs, entries) {
+
+    constructor(tag, attrs, events, entries) {
 
       let id = createId(16);
-      let rdom = _get(el) || _add('DIV');
-      rdom.setAttribute('tagid', id);
+      let el = _get(tag) || _create('DIV');
 
-      this.rdom = rdom;
+      el.empty();
+
+      this.tagName = tag;
       this.tagId = id;
-      this.attributes = attrs || parseAttributes(rdom);
-      this.entries = entries || parseHTML(rdom.html());
+      this.attributes = attrs || Object.create(null);
 
-      vBranches.set(id, this);
-      return this;
-    }
+      let evs = [];
 
-    html(s) {
-      this.html = parseHTML(s);
+      if (isArray(events)) {
+        events.forEach((item) => {
+          for (let k in item) {
+            if (hasProperty(item, k)) {
+              let fn = item[k];
+              if (isFunction(fn)) {
+                evs.push({
+                  name: k,
+                  callback: fn
+                });
+              }
+            }
+          }
+        });
+      } else if (isObject(events)) {
+        for (let k in events) {
+          if (hasProperty(events, k)) {
+            let fn = events[k];
+            if (isFunction(fn)) {
+              evs.push({
+                name: k,
+                callback: fn
+              });
+            }
+          }
+        }
+      }
+
+      this.events = evs;
+      this.nodeList = entries || [];
+
+      DOMMaster.init(id, this);
+
       return this;
     }
 
     setAttribute(k, v) {
       this.attributes[k] = v;
       return this;
+    }
+    setEvent(name, fn) {
+      this.events.push({
+        name: name,
+        callback: fn
+      });
+      return this;
+    }
+
+    insert(tag, attrs, events, entries) {
+      let n = new vElement(tag, attrs, events, entries);
+      this.nodeList.unshift(n);
+      return n;
+    }
+
+    append(tag, attrs, events, entries) {
+      let n = new vElement(tag, attrs, events, entries);
+      this.nodeList.push(n);
+      return n;
+    }
+
+    remove(tagId) {
+      let removed = false;
+
+      let rmTag = (node) => {
+        let entries = node.nodeList || [];
+        if (entries.length > 0) {
+          for (let i = entries.length - 1; i >= 0; i--) {
+            let j = entries[i];
+            if (j.tagId === tagId) {
+              entries.splice(i, 1);
+              removed = true;
+              break;
+            } else {
+              rmTag(j);
+            }
+          }
+        }
+      };
+
+      rmTag(this);
+      return removed;
+    }
+
+    sync(target) {
+      let el = _get(target);
+      if (el) {
+        let tagId = this.tagId;
+        el.setAttribute('tagId', tagId);
+        DOMMaster.actual.set(tagId, el);
+        render(this.nodeList, el);
+      }
     }
 
     clean() {

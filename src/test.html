@@ -5,18 +5,32 @@
     <title>Manual test</title>
   </head>
   <body xmlns="http://www.w3.org/1999/xhtml">
-    <div id="hello">
-      Hello world
-      <div class="noop">
-        <span>Who are you</span>
-      </div>
-    </div>
+    <div id="hello"></div>
     <script type="text/javascript" src="vdom.js"></script>
     <script type="text/javascript">
       DOM.ready(() => {
-        var a = vDOM.create('hello');
+        var a = vDOM.create('DIV', {type: 'text'});
         a.setAttribute('title', 'Hello');
+        let ul = a.append('ul');
+        ul.setAttribute('class', 'nano');
+        for (var i = 0; i < 5; i++){
+          ul.append('li', {id: 'li_' + i, style: 'color: red', text: 'This is li ' + i});
+        }
+        a.insert('span', {
+          text: 'Hello world',
+        },
+        [{
+          click: () => {
+            alert('Hello world');
+          }
+        }]).setEvent('click', () => {
+          console.log(1000)
+        });
+        a.append('footer', {text: '@footer'});
         console.log(a); // eslint-disable-line
+
+        a.sync('hello');
+        a.insert('header', {text: '@header'});
       });
     </script>
   </body>
