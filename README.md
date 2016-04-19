@@ -128,7 +128,10 @@ DOM.ready(function(){
 
 #### Basic methods
 
- - vDOM.create(String|HTMLElement tag [, Object attrs [, Object events [, Array entries ] ] ])
+ - vDOM.create(String ID | HTMLElement tagName [, Object attrs [, Object events [, Array entries ] ] ])
+ - vDOM.get(String tagId)
+ - vDOM.getFull(String tagId)
+ - vDOM.remove(String tagId)
 
 Example:
 
@@ -142,7 +145,7 @@ Returned virtual element will come with several helpful methods as below:
  - .setEvent(eventName, callback)
  - .insert()
  - .append()
- - .render()
+ - .render(String | HTMLElement target)
 
 These methods are chainable. The interface of .insert() and .append() is similar to vDOM.create() and also returns the virtual elements.
 
@@ -162,8 +165,14 @@ For an instance:
 </script>
 ```
 
-Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
+Every virtual element has a "tagId" property that is unique and can be used in the remain vDOM's methods such as *get* or *remove*. For example we can access full data related to the above *container* (virtual) element by:
 
+```
+var tmp = vDOM.getFull(container.tagId);
+console.log(tmp);
+```
+
+Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
 
 
 # License
