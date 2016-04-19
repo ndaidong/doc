@@ -306,7 +306,7 @@
         if (k === 'text') {
           let t = document.createTextNode(v);
           a.appendChild(t);
-        } else if (isString(v)) {
+        } else {
           a.setAttribute(k, v);
         }
       }
@@ -330,6 +330,7 @@
   };
 
   var render = (nodes, target) => {
+    target.empty();
     for (let i = 0; i < nodes.length; i++) {
       let n = nodes[i];
       v2a(n, target);
@@ -427,7 +428,6 @@
       }
 
       if (el) {
-        el.empty();
         el.setAttribute('tagId', tagId);
         render(this.nodeList, el);
         Actual.set(tagId, el);
