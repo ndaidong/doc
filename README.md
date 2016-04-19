@@ -129,6 +129,9 @@ DOM.ready(function(){
 #### Basic methods
 
  - vDOM.create(String|HTMLElement tag [, Object attrs [, Object events [, Array entries ] ] ])
+ - vDOM.get(String tagId)
+ - vDOM.getFull(String tagId)
+ - vDOM.remove(String tagId)
 
 Example:
 
@@ -162,8 +165,14 @@ For an instance:
 </script>
 ```
 
-Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
+Every virtual element has a "tagId" property that is unique and can be used in the remain vDOM's methods such as *get* or *remove*. For example we can access full data related to the above *container* (virtual) element by:
 
+```
+var tmp = vDOM.getFull(container.tagId);
+console.log(tmp);
+```
+
+Virtual DOM APIs is quite basic for right now. Other stuffs as *diff*, *patch* may be implemented in next version.
 
 
 # License
