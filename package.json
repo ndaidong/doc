@@ -13,20 +13,16 @@
     "node": ">= 4.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/tape test/start.js | tap-spec",
-    "coverage": "./node_modules/.bin/nyc tape test/start.js | tap-spec",
-    "report": "npm run coverage && ./node_modules/.bin/nyc report --reporter=lcov",
-    "coveralls": "npm run report && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "build": "node build/minify"
   },
   "devDependencies": {
     "colors": "latest",
-    "coveralls": "latest",
     "mkdirp": "latest",
     "request": "latest"
   },
   "keywords": [
     "dom",
+    "actual dom",
     "virtual dom",
     "manipulation",
     "templating",
@@ -38,8 +34,5 @@
   ],
   "bugs": {
     "url": "https://github.com/ndaidong/vdom/issues"
-  },
-  "directories": {
-    "test": "test"
   }
 }

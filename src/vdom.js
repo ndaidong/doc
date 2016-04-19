@@ -5,9 +5,19 @@
 
 'use strict';
 
-(() => {
+((global, factory) => {
+  if (typeof exports === 'object' && typeof module !== 'undefined') {
+    module.exports = factory();
+  } else if (typeof define === 'function' && define.amd) {
+    define(factory);
+  } else {
+    let o = factory();
+    global.DOM = o.DOM;
+    global.vDOM = o.vDOM;
+  }
+})(this, () => { // eslint-disable-line no-invalid-this
 
-  var ENV = typeof module !== 'undefined' && module.exports ? 'node' : 'browser';
+  var RD = {}, VD = {};
 
   var isDef = (v) => {
     return v !== 'undefined';
@@ -64,11 +74,8 @@
     return s;
   };
 
-  // real DOM
-  var RD = {
-    ENV: ENV
-  };
 
+  // actual DOM
   var _get, _add, _create, _query, _queryAll;
 
   _get = (el) => {
@@ -292,10 +299,6 @@
 
 
   // virtual DOM
-  var VD = {
-    ENV: ENV
-  };
-
   var Actual = new Map();
   var Virtual = new Map();
   var Mirror = new Map();
@@ -477,23 +480,8 @@
     return new vElement(el, attrs, entries);
   };
 
-  // exports
-  if (ENV === 'node') {
-    module.exports = {
-      DOM: RD,
-      vDOM: VD
-    };
-  } else {
-    let root = window || {};
-    if (root.define && root.define.amd) {
-      root.define(() => {
-        return {
-          DOM: RD,
-          vDOM: VD
-        };
-      });
-    }
-    root.DOM = RD;
-    root.vDOM = VD;
-  }
-})();
+  return {
+    DOM: RD,
+    vDOM: VD
+  };
+});

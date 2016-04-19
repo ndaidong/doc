@@ -10,7 +10,7 @@
 describe('General', () => {
 
   let keys = [
-    'ENV', 'Event',
+    'Event',
     'add', 'all', 'create', 'get', 'getMousePosition', 'getWindowSize', 'one', 'ready'
   ];
 
