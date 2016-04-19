@@ -128,7 +128,7 @@ DOM.ready(function(){
 
 #### Basic methods
 
- - vDOM.create(String|HTMLElement tag [, Object attrs [, Object events [, Array entries ] ] ])
+ - vDOM.create(String ID | HTMLElement tagName [, Object attrs [, Object events [, Array entries ] ] ])
  - vDOM.get(String tagId)
  - vDOM.getFull(String tagId)
  - vDOM.remove(String tagId)
@@ -145,7 +145,7 @@ Returned virtual element will come with several helpful methods as below:
  - .setEvent(eventName, callback)
  - .insert()
  - .append()
- - .render()
+ - .render(String | HTMLElement target)
 
 These methods are chainable. The interface of .insert() and .append() is similar to vDOM.create() and also returns the virtual elements.
 
