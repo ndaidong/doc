@@ -343,8 +343,6 @@
       let id = createId(16);
       let el = _get(tag) || _create(tag);
 
-      el.empty();
-
       this.tagName = el.tagName;
       this.tagId = id;
       this.attributes = attrs || Object.create(null);
