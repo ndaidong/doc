@@ -13,10 +13,16 @@
     "node": ">= 4.0"
   },
   "scripts": {
+    "test": "node_modules/karma/bin/karma start test/karma.conf.js --single-run",
     "build": "node build/minify"
   },
   "devDependencies": {
     "colors": "latest",
+    "jasmine-core": "latest",
+    "karma": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-jasmine": "latest",
     "mkdirp": "latest",
     "request": "latest"
   },
