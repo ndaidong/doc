@@ -384,7 +384,7 @@
     }
     removeAttribute(k) {
       this.attributes[k] = null;
-      delete this.attributes;
+      delete this.attributes[k];
       return this;
     }
 
@@ -396,11 +396,8 @@
       return this;
     }
     removeEvent(name) {
-      let es = this.events;
-      let se = es.filter((e) => {
-        return e.name !== name;
-      });
-      this.events = se;
+      this.events[name] = null;
+      delete this.events[name];
       return this;
     }
 
