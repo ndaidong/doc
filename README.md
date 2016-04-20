@@ -23,7 +23,7 @@ Returned virtual element will come with several helpful methods as below:
  - .removeEvent(eventName)
  - .insert()
  - .append()
- - .find()
+ - .find(tagId)
  - .render(String | HTMLElement target)
 
 These methods are chainable. The interface of .insert() and .append() is similar to vDOM.create() and also returns the virtual elements. Note that, "text" is a special property in the second param, that will be presented as element's content (using textContent).
