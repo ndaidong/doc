@@ -4,8 +4,7 @@ DOM &amp; Virtual DOM
 ## Virtual DOM APIs
 
  - vDOM.create(String ID | HTMLElement tagName [, Object attrs [, Object events [, Array entries ] ] ])
- - vDOM.get(String tagId)
- - vDOM.getFull(String tagId)
+ - vDOM.get(String tagId [, Boolean full])
  - vDOM.remove(String tagId)
 
 Example:
@@ -17,7 +16,10 @@ var el = vDOM.create('DIV', {type: 'text', class: 'nano'});
 Returned virtual element will come with several helpful methods as below:
 
  - .setAttribute(key, value)
+ - .hasAttribute(key)
+ - .removeAttribute(key)
  - .setEvent(eventName, callback)
+ - .removeEvent(eventName)
  - .insert()
  - .append()
  - .render(String | HTMLElement target)

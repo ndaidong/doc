@@ -277,16 +277,18 @@
     Virtual.set(id, vdom);
   };
 
-  VD.get = (id) => {
+  VD.get = (id, full) => {
+    if (!id || !isString(id)) {
+      return null;
+    }
+    if (full === true) {
+      return {
+        actual: Actual.get(id),
+        virtual: Virtual.get(id),
+        mirror: Mirror.get(id)
+      };
+    }
     return Virtual.get(id);
-  };
-
-  VD.getFull = (id) => {
-    return {
-      actual: Actual.get(id),
-      virtual: Virtual.get(id),
-      mirror: Mirror.get(id)
-    };
   };
 
   VD.remove = (id) => {
@@ -373,11 +375,29 @@
       this.attributes[k] = v;
       return this;
     }
+    hasAttribute(k) {
+      let as = this.attributes;
+      return hasProperty(as, k);
+    }
+    removeAttribute(k) {
+      this.attributes[k] = null;
+      delete this.attributes;
+      return this;
+    }
+
     setEvent(name, fn) {
       this.events.push({
         name: name,
         callback: fn
       });
+      return this;
+    }
+    removeEvent(name) {
+      let es = this.events;
+      let se = es.filter((e) => {
+        return e.name !== name;
+      });
+      this.events = se;
       return this;
     }
 
@@ -436,6 +456,8 @@
     }
 
   }
+
+  VD.Element = vElement;
 
   VD.create = (el, attrs, events, entries) => {
     return new vElement(el, attrs, events, entries);
