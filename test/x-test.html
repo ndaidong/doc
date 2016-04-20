@@ -16,26 +16,16 @@
         for (var i = 0; i < 5; i++){
           ul.append('li', {id: 'li_' + i, text: 'This is li ' + i});
         }
-        a.insert('span', {
-          text: 'Hello world',
-        }, {
-          click: () => {
-            alert('Hello world');
-          }
-        }).setEvent('click', () => {
-          console.log(1000)
-        });
-        a.append('footer', {text: '@footer'});
-        console.log(a); // eslint-disable-line
 
         a.render('hello');
 
-        let h = a.insert('header', {text: '@header'});
+        ul.append('li', {text: 'New item'});
 
-        var x = vDOM.get(a.tagId, true);
-        console.log(x);
+        var x1 = vDOM.get(a.tagId, true);
+        console.log(x1);
         setTimeout(() => {
-          a.render();
+          var x2 = vDOM.get(a.tagId, true);
+          console.log(x2);
         }, 1000)
       });
     </script>

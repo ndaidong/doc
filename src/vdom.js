@@ -332,7 +332,6 @@
   };
 
   var render = (nodes, target) => {
-    target.empty();
     for (let i = 0; i < nodes.length; i++) {
       let n = nodes[i];
       v2a(n, target);
@@ -463,16 +462,22 @@
 
     render(target) {
 
-      let el = _get(target);
       let tagId = this.tagId;
 
+      let el = RD.one(`[tagId="${tagId}"]`);
       if (!el) {
-        el = RD.one(`[tagId="${tagId}"]`);
-      }
-
-      if (el) {
+        el = _create(this.tagName);
         el.setAttribute('tagId', tagId);
+      }
+      if (el) {
+        let tag = _get(target);
+        if (!tag) {
+          tag = _get(el.parentNode);
+        }
         render(this.nodeList, el);
+        tag.empty();
+        tag.appendChild(el);
+
         Actual.set(tagId, el);
         Mirror.set(tagId, clone(this));
       }
