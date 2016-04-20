@@ -19,8 +19,8 @@
 
   var RD = {}, VD = {};
 
-  var isDef = (v) => {
-    return v !== 'undefined';
+  var isUndefined = (v) => {
+    return v === undefined; // eslint-disable-line no-undefined
   };
   var isString = (v) => {
     return typeof v === 'string';
@@ -37,7 +37,7 @@
       return false;
     }
     let r = true;
-    if (!isDef(ob[k])) {
+    if (isUndefined(ob[k])) {
       r = k in ob;
     }
     return r;
@@ -139,7 +139,7 @@
         return p;
       };
       p.html = (s) => {
-        if (!isDef(s)) {
+        if (isUndefined(s)) {
           return p.innerHTML;
         }
         p.innerHTML = s;
@@ -306,7 +306,7 @@
         if (k === 'text') {
           let t = document.createTextNode(v);
           a.appendChild(t);
-        } else if (isString(v)) {
+        } else {
           a.setAttribute(k, v);
         }
       }
@@ -330,6 +330,7 @@
   };
 
   var render = (nodes, target) => {
+    target.empty();
     for (let i = 0; i < nodes.length; i++) {
       let n = nodes[i];
       v2a(n, target);
@@ -342,8 +343,6 @@
 
       let id = createId(16);
       let el = _get(tag) || _create(tag);
-
-      el.empty();
 
       this.tagName = el.tagName;
       this.tagId = id;
@@ -429,7 +428,6 @@
       }
 
       if (el) {
-        el.empty();
         el.setAttribute('tagId', tagId);
         render(this.nodeList, el);
         Actual.set(tagId, el);
@@ -439,8 +437,8 @@
 
   }
 
-  VD.create = (el, attrs, entries) => {
-    return new vElement(el, attrs, entries);
+  VD.create = (el, attrs, events, entries) => {
+    return new vElement(el, attrs, events, entries);
   };
 
   return {
