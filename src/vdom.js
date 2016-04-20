@@ -19,8 +19,8 @@
 
   var RD = {}, VD = {};
 
-  var isDef = (v) => {
-    return v !== 'undefined';
+  var isUndefined = (v) => {
+    return v === undefined; // eslint-disable-line no-undefined
   };
   var isString = (v) => {
     return typeof v === 'string';
@@ -37,7 +37,7 @@
       return false;
     }
     let r = true;
-    if (!isDef(ob[k])) {
+    if (isUndefined(ob[k])) {
       r = k in ob;
     }
     return r;
@@ -139,7 +139,7 @@
         return p;
       };
       p.html = (s) => {
-        if (!isDef(s)) {
+        if (isUndefined(s)) {
           return p.innerHTML;
         }
         p.innerHTML = s;
@@ -437,8 +437,8 @@
 
   }
 
-  VD.create = (el, attrs, entries) => {
-    return new vElement(el, attrs, entries);
+  VD.create = (el, attrs, events, entries) => {
+    return new vElement(el, attrs, events, entries);
   };
 
   return {
