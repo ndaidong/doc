@@ -32,7 +32,7 @@
 
         let h = a.insert('header', {text: '@header'});
 
-        var x = vDOM.getFull(a.tagId);
+        var x = vDOM.get(a.tagId, true);
         console.log(x);
         setTimeout(() => {
           a.render();

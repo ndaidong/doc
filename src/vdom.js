@@ -379,6 +379,9 @@
       let as = this.attributes;
       return hasProperty(as, k);
     }
+    getAttribute(k) {
+      return this.attributes[k] || null;
+    }
     removeAttribute(k) {
       this.attributes[k] = null;
       delete this.attributes;
@@ -413,6 +416,28 @@
       n.parentId = this.tagId;
       this.nodeList.push(n);
       return n;
+    }
+
+    find(tagId) {
+
+      let item;
+      let look = (node) => {
+        let entries = node.nodeList || [];
+        if (entries.length > 0 && !item) {
+          for (let i = 0; i < entries.length; i++) {
+            let j = entries[i];
+            if (j.tagId === tagId) {
+              item = j;
+              break;
+            } else {
+              look(j);
+            }
+          }
+        }
+        return item;
+      };
+
+      return look(this) || null;
     }
 
     remove(tagId) {

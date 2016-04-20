@@ -26,6 +26,13 @@ describe('Testing Virtual DOM APIs', () => {
 
   describe('vDOM.create', () => {
 
+    let keys = [
+      'append', 'insert', 'find', 'remove',
+      'setEvent', 'removeEvent',
+      'setAttribute', 'hasAttribute', 'getAttribute', 'removeAttribute',
+      'render'
+    ];
+
     let d = vDOM.create('DIV', {
       class: 'titanium',
       colors: 'red, blue'
@@ -40,12 +47,31 @@ describe('Testing Virtual DOM APIs', () => {
         expect(d[k]).toBeDefined();
       });
     };
-    [
-      'append', 'insert', 'remove',
-      'setEvent', 'removeEvent',
-      'setAttribute', 'hasAttribute', 'removeAttribute',
-      'render'
-    ].map(check);
+
+    keys.map(check);
+
+    it('Created element must have property "class"', () => {
+      expect(d.hasAttribute('class')).toBe(true);
+    });
+    it('And value of class must be "titanium"', () => {
+      expect(d.getAttribute('class')).toBe('titanium');
+    });
+    it('Created element must have property "colors"', () => {
+      expect(d.hasAttribute('colors')).toBe(true);
+    });
+    it('And value of colors must be "red, blue"', () => {
+      expect(d.getAttribute('colors')).toBe('red, blue');
+    });
+
+    let g = d.append('SPAN');
+    it('From parent, find an item must be returned it', () => {
+      expect(d.find(g.tagId)).toBe(g);
+      keys.forEach((k) => {
+        it(`Created element must have "${k}" method`, () => {
+          expect(g[k]).toBeDefined();
+        });
+      });
+    });
 
   });
 
