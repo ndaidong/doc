@@ -17,11 +17,13 @@ Returned virtual element will come with several helpful methods as below:
 
  - .setAttribute(key, value)
  - .hasAttribute(key)
+ - .getAttribute(key)
  - .removeAttribute(key)
  - .setEvent(eventName, callback)
  - .removeEvent(eventName)
  - .insert()
  - .append()
+ - .find()
  - .render(String | HTMLElement target)
 
 These methods are chainable. The interface of .insert() and .append() is similar to vDOM.create() and also returns the virtual elements. Note that, "text" is a special property in the second param, that will be presented as element's content (using textContent).
@@ -45,7 +47,7 @@ For an instance:
 Every virtual element has a "tagId" property that is unique and can be used in the remain vDOM's methods such as *get* or *remove*. For example we can access full data related to the above *container* (virtual) element by:
 
 ```
-var tmp = vDOM.getFull(container.tagId);
+var tmp = vDOM.get(container.tagId, true);
 console.log(tmp);
 ```
 
