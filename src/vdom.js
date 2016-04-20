@@ -448,6 +448,7 @@
             if (j.tagId === tagId) {
               entries.splice(i, 1);
               removed = true;
+              node.nodeList = entries;
               break;
             } else {
               rmTag(j);
