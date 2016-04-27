@@ -261,10 +261,42 @@
     };
   })();
 
+  class xMap {
+    constructor() {
+      this.data = {};
+    }
+
+    set(k, v) {
+      let d = this.data;
+      d[k] = v;
+      return this;
+    }
+
+    get(k) {
+      let d = this.data;
+      return d[k] || null;
+    }
+
+    has(k) {
+      let d = this.data;
+      return hasProperty(d, k);
+    }
+
+    delete(k) {
+      if (!this.has(k)) {
+        return false;
+      }
+      let d = this.data;
+      d[k] = null;
+      delete d[k];
+      return true;
+    }
+  }
+
   // virtual DOM
-  var Actual = new Map();
-  var Virtual = new Map();
-  var Mirror = new Map();
+  var Actual = new xMap();
+  var Virtual = new xMap();
+  var Mirror = new xMap();
 
   var clone = (o) => {
     let s = JSON.stringify(o);
@@ -292,9 +324,9 @@
   };
 
   VD.remove = (id) => {
-    Actual.remove(id);
-    Virtual.remove(id);
-    Mirror.remove(id);
+    Actual.delete(id);
+    Virtual.delete(id);
+    Mirror.delete(id);
   };
 
   var v2a = (node, parent) => {

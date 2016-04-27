@@ -72,9 +72,8 @@ var minify = () => {
       exec('mkdir ' + DIST);
       let fileOut = DIST + 'vdom.min.js';
 
-      let s1 = fs.readFileSync('./build/es6-collections.js');
-      let s2 = json.compiledCode;
-      fs.writeFileSync(fileOut, s1 + s2, 'utf8');
+      let code = json.compiledCode;
+      fs.writeFileSync(fileOut, code, 'utf8');
       log.success('File has been minified');
     }
   }).catch((err) => {
