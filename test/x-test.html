@@ -25,12 +25,13 @@
         console.log(x1);
         setTimeout(() => {
           var x2 = vDOM.get(a.tagId, true);
-          console.log(x2);
-          vDOM.remove(ul.tagId);
-          setTimeout(() => {
-            var x3 = vDOM.get(a.tagId, true);
-            console.log(x3);
-          }, 1000)
+          console.log('diff');
+          let y = vDOM.diff(x2.virtual, x2.mirror);
+          console.log(y);
+          console.log('x2.virtual');
+          console.log(x2.virtual);
+          console.log('x2.mirror');
+          console.log(x2.mirror);
         }, 1000)
       });
     </script>

@@ -5,6 +5,15 @@
 
 'use strict';
 
+/* eslint-disable */
+/*!
+ * deep-diff.
+ * Licensed under the MIT License.
+ * https://github.com/flitbit/diff
+ */
+(function(e,t){"use strict";if(typeof define==="function"&&define.amd){define([],t)}else if(typeof exports==="object"){module.exports=t()}else{e.DeepDiff=t()}})(this,function(e){"use strict";var t,n,a=[];if(typeof global==="object"&&global){t=global}else if(typeof window!=="undefined"){t=window}else{t={}}n=t.DeepDiff;if(n){a.push(function(){if("undefined"!==typeof n&&t.DeepDiff===p){t.DeepDiff=n;n=e}})}function r(e,t){e.super_=t;e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:false,writable:true,configurable:true}})}function i(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:true});if(t&&t.length){Object.defineProperty(this,"path",{value:t,enumerable:true})}}function f(e,t,n){f.super_.call(this,"E",e);Object.defineProperty(this,"lhs",{value:t,enumerable:true});Object.defineProperty(this,"rhs",{value:n,enumerable:true})}r(f,i);function u(e,t){u.super_.call(this,"N",e);Object.defineProperty(this,"rhs",{value:t,enumerable:true})}r(u,i);function l(e,t){l.super_.call(this,"D",e);Object.defineProperty(this,"lhs",{value:t,enumerable:true})}r(l,i);function s(e,t,n){s.super_.call(this,"A",e);Object.defineProperty(this,"index",{value:t,enumerable:true});Object.defineProperty(this,"item",{value:n,enumerable:true})}r(s,i);function h(e,t,n){var a=e.slice((n||t)+1||e.length);e.length=t<0?e.length+t:t;e.push.apply(e,a);return e}function c(e){var t=typeof e;if(t!=="object"){return t}if(e===Math){return"math"}else if(e===null){return"null"}else if(Array.isArray(e)){return"array"}else if(e instanceof Date){return"date"}else if(/^\/.*\//.test(e.toString())){return"regexp"}return"object"}function o(t,n,a,r,i,p,b){i=i||[];var d=i.slice(0);if(typeof p!=="undefined"){if(r&&r(d,p,{lhs:t,rhs:n})){return}d.push(p)}var v=typeof t;var y=typeof n;if(v==="undefined"){if(y!=="undefined"){a(new u(d,n))}}else if(y==="undefined"){a(new l(d,t))}else if(c(t)!==c(n)){a(new f(d,t,n))}else if(t instanceof Date&&n instanceof Date&&t-n!==0){a(new f(d,t,n))}else if(v==="object"&&t!==null&&n!==null){b=b||[];if(b.indexOf(t)<0){b.push(t);if(Array.isArray(t)){var k,m=t.length;for(k=0;k<t.length;k++){if(k>=n.length){a(new s(d,k,new l(e,t[k])))}else{o(t[k],n[k],a,r,d,k,b)}}while(k<n.length){a(new s(d,k,new u(e,n[k++])))}}else{var g=Object.keys(t);var w=Object.keys(n);g.forEach(function(i,f){var u=w.indexOf(i);if(u>=0){o(t[i],n[i],a,r,d,i,b);w=h(w,u)}else{o(t[i],e,a,r,d,i,b)}});w.forEach(function(t){o(e,n[t],a,r,d,t,b)})}b.length=b.length-1}}else if(t!==n){if(!(v==="number"&&isNaN(t)&&isNaN(n))){a(new f(d,t,n))}}}function p(t,n,a,r){r=r||[];o(t,n,function(e){if(e){r.push(e)}},a);return r.length?r:e}function b(e,t,n){if(n.path&&n.path.length){var a=e[t],r,i=n.path.length-1;for(r=0;r<i;r++){a=a[n.path[r]]}switch(n.kind){case"A":b(a[n.path[r]],n.index,n.item);break;case"D":delete a[n.path[r]];break;case"E":case"N":a[n.path[r]]=n.rhs;break}}else{switch(n.kind){case"A":b(e[t],n.index,n.item);break;case"D":e=h(e,t);break;case"E":case"N":e[t]=n.rhs;break}}return e}function d(e,t,n){if(e&&t&&n&&n.kind){var a=e,r=-1,i=n.path?n.path.length-1:0;while(++r<i){if(typeof a[n.path[r]]==="undefined"){a[n.path[r]]=typeof n.path[r]==="number"?[]:{}}a=a[n.path[r]]}switch(n.kind){case"A":b(n.path?a[n.path[r]]:a,n.index,n.item);break;case"D":delete a[n.path[r]];break;case"E":case"N":a[n.path[r]]=n.rhs;break}}}function v(e,t,n){if(n.path&&n.path.length){var a=e[t],r,i=n.path.length-1;for(r=0;r<i;r++){a=a[n.path[r]]}switch(n.kind){case"A":v(a[n.path[r]],n.index,n.item);break;case"D":a[n.path[r]]=n.lhs;break;case"E":a[n.path[r]]=n.lhs;break;case"N":delete a[n.path[r]];break}}else{switch(n.kind){case"A":v(e[t],n.index,n.item);break;case"D":e[t]=n.lhs;break;case"E":e[t]=n.lhs;break;case"N":e=h(e,t);break}}return e}function y(e,t,n){if(e&&t&&n&&n.kind){var a=e,r,i;i=n.path.length-1;for(r=0;r<i;r++){if(typeof a[n.path[r]]==="undefined"){a[n.path[r]]={}}a=a[n.path[r]]}switch(n.kind){case"A":v(a[n.path[r]],n.index,n.item);break;case"D":a[n.path[r]]=n.lhs;break;case"E":a[n.path[r]]=n.lhs;break;case"N":delete a[n.path[r]];break}}}function k(e,t,n){if(e&&t){var a=function(a){if(!n||n(e,t,a)){d(e,t,a)}};o(e,t,a)}}Object.defineProperties(p,{diff:{value:p,enumerable:true},observableDiff:{value:o,enumerable:true},applyDiff:{value:k,enumerable:true},applyChange:{value:d,enumerable:true},revertChange:{value:y,enumerable:true},isConflict:{value:function(){return"undefined"!==typeof n},enumerable:true},noConflict:{value:function(){if(a){a.forEach(function(e){e()});a=null}return p},enumerable:true}});return p});
+/* eslint-enable */
+
 ((global, factory) => {
   if (typeof exports === 'object' && typeof module !== 'undefined') {
     module.exports = factory();
@@ -327,6 +336,144 @@
     Actual.delete(id);
     Virtual.delete(id);
     Mirror.delete(id);
+  };
+
+  var adiff = (a, b) => {
+    let r = [];
+
+    if (a !== b) {
+      let la = a.length, lb = b.length;
+      let m = Math.max(la, lb);
+      if (m > 0) {
+        for (let i = 0; i < la; i++) {
+          let ia = a[i];
+          let ka = ia.key, va = ia.value;
+          let f = false;
+          for (let j = 0; j < lb; j++) {
+            let jb = b[j];
+            let kb = jb.key, vb = jb.value;
+            if (kb === ka) {
+              f = true;
+              if (va !== vb) {
+                r.push({
+                  action: 'Update',
+                  key: ka,
+                  value: va
+                });
+              }
+              break;
+            }
+          }
+          if (!f) {
+            r.push({
+              action: 'Remove',
+              key: ka,
+              value: va
+            });
+          }
+        }
+        for (let i = 0; i < lb; i++) {
+          let ib = b[i];
+          let kb = ib.key, vb = ib.value;
+          let f = -1;
+          for (let j = 0; j < la; j++) {
+            let ka = a[j].key;
+            if (ka === kb) {
+              f = j;
+              break;
+            }
+          }
+          if (f < 0) {
+            r.push({
+              action: 'Add',
+              key: kb,
+              value: vb
+            });
+          }
+        }
+      }
+    }
+
+    return r;
+  };
+
+  var compareAttributes = (a, b) => {
+    let r = [];
+    if (a === b) {
+      return r;
+    }
+    let aa = [], bb = [];
+    for (let k in a) {
+      if (a.hasOwnProperty(k)) {
+        aa.push({
+          key: k,
+          value: a[k]
+        });
+      }
+    }
+    for (let k in b) {
+      if (b.hasOwnProperty(k)) {
+        bb.push({
+          key: k,
+          value: b[k]
+        });
+      }
+    }
+    return adiff(aa, bb);
+  };
+
+  var compareEvents = (a, b) => {
+    if (a === b) {
+      return [];
+    }
+    return adiff(a, b);
+  };
+
+  var compareNodeList = (a, b) => {
+    let r = [];
+    if (a === b) {
+      return r;
+    }
+
+    for (let i = 0; i < a.length; i++) {
+      for (let j = 0; j < b.length; j++) {
+        let aa = a[i], bb = b[j];
+        if (aa.tagId === bb.tagId) {
+          let as = compareAttributes(aa.attributes, bb.attributes);
+          if (as && as.length) {
+            r = r.concat(as);
+          }
+          let es = compareEvents(aa.events, bb.events);
+          if (es && es.length) {
+            r = r.concat(es);
+          }
+          let ns = compareEvents(aa.nodeList, bb.nodeList);
+          if (ns && ns.length) {
+            r = r.concat(ns);
+          }
+        }
+      }
+    }
+    return r;
+  };
+
+  VD.diff = (a, b) => {
+    let r = [];
+    if (a !== b) {
+      let as = compareAttributes(a.attributes, b.attributes);
+      if (as && as.length) {
+        r = r.concat(as);
+      }
+      let es = compareEvents(a.events, b.events);
+      if (es && es.length) {
+        r = r.concat(es);
+      }
+      let ns = compareNodeList(a.nodeList, b.nodeList);
+      if (ns && ns.length) {
+        r = r.concat(es);
+      }
+    }
+    return r;
   };
 
   var v2a = (node, parent) => {
