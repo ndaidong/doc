@@ -4,5 +4,5 @@ node_js:
 before_install:
   - export DISPLAY=:99.0
 before_script:
-  - npm install karma jasmine-core karma-jasmine karma-phantomjs-launcher
+  - npm install karma jasmine-core karma-jasmine karma-phantomjs-launcher phantomjs-prebuilt
 script: node_modules/karma/bin/karma start --browsers PhantomJS --single-run
