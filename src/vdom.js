@@ -6,8 +6,7 @@
 'use strict';
 
 ((factory) => {
-  var ENV = typeof module !== 'undefined' && module.exports ? 'node' : 'browser';
-  if (ENV === 'node') {
+  if (typeof module !== 'undefined' && module.exports) {
     module.exports = factory();
   } else {
     var root = window || {};

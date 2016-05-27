@@ -1,9 +1,9 @@
 language: node_js
 node_js:
   - "6.2.0"
-  - "6.0.0"
-  - "5.1.0"
-  - "4.2.0"
+before_install:
+  - export DISPLAY=:99.0
 before_script:
   - npm install
-script: npm test
+  - npm install phantomjs-prebuilt
+script: node_modules/karma/bin/karma start test/karma-travis.js

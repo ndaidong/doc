@@ -24,7 +24,6 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "latest",
     "karma-opera-launcher": "^1.0.0",
-    "mkdirp": "latest",
     "request": "latest"
   },
   "keywords": [
