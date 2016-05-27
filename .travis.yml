@@ -4,6 +4,7 @@ node_js:
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - apt-get install firefox chrome opera
 before_script:
-  - npm install karma jasmine-core karma-jasmine karma-opera-launcher karma-chrome-launcher karma-firefox-launcher
+  - npm install
 script: node_modules/karma/bin/karma start test/karma.conf.js --single-run
