@@ -10,8 +10,8 @@ module.exports = (config) => {
     singleRun: true,
     browsers: [
       'Chrome',
-      'Firefox',
-      'PhantomJS'
+      'Opera',
+      'Firefox'
     ],
     files: [
       '../src/vdom.js', 'specs/*.js'

@@ -5,17 +5,23 @@
 
 'use strict';
 
-((global, factory) => {
-  if (typeof exports === 'object' && typeof module !== 'undefined') {
+((factory) => {
+  var ENV = typeof module !== 'undefined' && module.exports ? 'node' : 'browser';
+  if (ENV === 'node') {
     module.exports = factory();
-  } else if (typeof define === 'function' && define.amd) {
-    define(factory);
   } else {
-    let o = factory();
-    global.DOM = o.DOM;
-    global.vDOM = o.vDOM;
+    var root = window || {};
+    if (root.define && root.define.amd) {
+      root.define([], factory);
+    } else if (root.exports) {
+      root.exports = factory();
+    } else {
+      let o = factory();
+      root.DOM = o.DOM;
+      root.vDOM = o.vDOM;
+    }
   }
-})(this, () => { // eslint-disable-line no-invalid-this
+})(() => { // eslint-disable-line no-invalid-this
 
   var RD = {}, VD = {};
 
@@ -327,144 +333,6 @@
     Actual.delete(id);
     Virtual.delete(id);
     Mirror.delete(id);
-  };
-
-  var adiff = (a, b) => {
-    let r = [];
-
-    if (a !== b) {
-      let la = a.length, lb = b.length;
-      let m = Math.max(la, lb);
-      if (m > 0) {
-        for (let i = 0; i < la; i++) {
-          let ia = a[i];
-          let ka = ia.key, va = ia.value;
-          let f = false;
-          for (let j = 0; j < lb; j++) {
-            let jb = b[j];
-            let kb = jb.key, vb = jb.value;
-            if (kb === ka) {
-              f = true;
-              if (va !== vb) {
-                r.push({
-                  action: 'Update',
-                  key: ka,
-                  value: va
-                });
-              }
-              break;
-            }
-          }
-          if (!f) {
-            r.push({
-              action: 'Remove',
-              key: ka,
-              value: va
-            });
-          }
-        }
-        for (let i = 0; i < lb; i++) {
-          let ib = b[i];
-          let kb = ib.key, vb = ib.value;
-          let f = -1;
-          for (let j = 0; j < la; j++) {
-            let ka = a[j].key;
-            if (ka === kb) {
-              f = j;
-              break;
-            }
-          }
-          if (f < 0) {
-            r.push({
-              action: 'Add',
-              key: kb,
-              value: vb
-            });
-          }
-        }
-      }
-    }
-
-    return r;
-  };
-
-  var compareAttributes = (a, b) => {
-    let r = [];
-    if (a === b) {
-      return r;
-    }
-    let aa = [], bb = [];
-    for (let k in a) {
-      if (a.hasOwnProperty(k)) {
-        aa.push({
-          key: k,
-          value: a[k]
-        });
-      }
-    }
-    for (let k in b) {
-      if (b.hasOwnProperty(k)) {
-        bb.push({
-          key: k,
-          value: b[k]
-        });
-      }
-    }
-    return adiff(aa, bb);
-  };
-
-  var compareEvents = (a, b) => {
-    if (a === b) {
-      return [];
-    }
-    return adiff(a, b);
-  };
-
-  var compareNodeList = (a, b) => {
-    let r = [];
-    if (a === b) {
-      return r;
-    }
-
-    for (let i = 0; i < a.length; i++) {
-      for (let j = 0; j < b.length; j++) {
-        let aa = a[i], bb = b[j];
-        if (aa.tagId === bb.tagId) {
-          let as = compareAttributes(aa.attributes, bb.attributes);
-          if (as && as.length) {
-            r = r.concat(as);
-          }
-          let es = compareEvents(aa.events, bb.events);
-          if (es && es.length) {
-            r = r.concat(es);
-          }
-          let ns = compareEvents(aa.nodeList, bb.nodeList);
-          if (ns && ns.length) {
-            r = r.concat(ns);
-          }
-        }
-      }
-    }
-    return r;
-  };
-
-  VD.diff = (a, b) => {
-    let r = [];
-    if (a !== b) {
-      let as = compareAttributes(a.attributes, b.attributes);
-      if (as && as.length) {
-        r = r.concat(as);
-      }
-      let es = compareEvents(a.events, b.events);
-      if (es && es.length) {
-        r = r.concat(es);
-      }
-      let ns = compareNodeList(a.nodeList, b.nodeList);
-      if (ns && ns.length) {
-        r = r.concat(es);
-      }
-    }
-    return r;
   };
 
   var v2a = (node, parent) => {
