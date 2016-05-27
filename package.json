@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "name": "vdom",
   "description": "DOM & Virtual DOM Manipulation",
   "homepage": "http://techpush.net",
@@ -20,9 +20,10 @@
     "colors": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
-    "karma-chrome-launcher": "latest",
-    "karma-firefox-launcher": "latest",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "latest",
+    "karma-opera-launcher": "^1.0.0",
     "mkdirp": "latest",
     "request": "latest"
   },

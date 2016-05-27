@@ -5,17 +5,23 @@
 
 'use strict';
 
-((global, factory) => {
-  if (typeof exports === 'object' && typeof module !== 'undefined') {
+((factory) => {
+  var ENV = typeof module !== 'undefined' && module.exports ? 'node' : 'browser';
+  if (ENV === 'node') {
     module.exports = factory();
-  } else if (typeof define === 'function' && define.amd) {
-    define(factory);
   } else {
-    let o = factory();
-    global.DOM = o.DOM;
-    global.vDOM = o.vDOM;
+    var root = window || {};
+    if (root.define && root.define.amd) {
+      root.define([], factory);
+    } else if (root.exports) {
+      root.exports = factory();
+    } else {
+      let o = factory();
+      root.DOM = o.DOM;
+      root.vDOM = o.vDOM;
+    }
   }
-})(this, () => { // eslint-disable-line no-invalid-this
+})(() => { // eslint-disable-line no-invalid-this
 
   var RD = {}, VD = {};
 
