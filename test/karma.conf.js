@@ -14,7 +14,7 @@ module.exports = (config) => {
       'Firefox'
     ],
     files: [
-      '../src/vdom.js', 'specs/*.js'
+      '../src/main.js', 'specs/*.js'
     ],
     exclude: [],
     preprocessors: {}

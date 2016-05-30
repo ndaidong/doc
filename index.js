@@ -4,5 +4,5 @@
 **/
 'use strict';
 
-exports = module.exports = require('./src/vdom');
+exports = module.exports = require('./src/main');
 exports.version = require('./package').version;
