@@ -1,5 +1,5 @@
 # doc
-Another small DOM & Event manipulation
+A lightweight DOM & Event manipulation.
 
 ## Setup
 
@@ -134,9 +134,6 @@ doc.ready(function(){
       maxWidth: 500,
       'padding-top': '2px'
     });
-
-    // set label
-    btn.html('Say Hello!');
 
     // set an event listener
     doc.Event.on(btn, 'click', function(){
