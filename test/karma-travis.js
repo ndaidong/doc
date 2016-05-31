@@ -12,7 +12,7 @@ module.exports = (config) => {
       'PhantomJS'
     ],
     files: [
-      '../src/vdom.js', 'specs/*.js'
+      '../src/main.js', 'specs/*.js'
     ],
     exclude: [],
     preprocessors: {}

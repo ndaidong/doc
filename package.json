@@ -1,16 +1,16 @@
 {
-  "version": "0.0.4",
-  "name": "vdom",
-  "description": "DOM & Virtual DOM Manipulation",
+  "version": "0.1.0",
+  "name": "doc",
+  "description": "Small DOM Manipulation",
   "homepage": "http://techpush.net",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ndaidong/vdom.git"
+    "url": "git@github.com:ndaidong/doc.git"
   },
   "author": "Dong Nguyen <ndaidong@gmail.com> (https://twitter.com/ndaidong)",
   "main": "./index.js",
   "engines": {
-    "node": ">= 4.0"
+    "node": ">= 6.0"
   },
   "scripts": {
     "test": "node_modules/.bin/karma start test/karma.conf.js",
@@ -20,16 +20,14 @@
     "colors": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
-    "karma-chrome-launcher": "^1.0.1",
-    "karma-firefox-launcher": "^1.0.0",
+    "karma-chrome-launcher": "latest",
+    "karma-firefox-launcher": "latest",
     "karma-jasmine": "latest",
-    "karma-opera-launcher": "^1.0.0",
+    "karma-opera-launcher": "latest",
     "request": "latest"
   },
   "keywords": [
     "dom",
-    "actual dom",
-    "virtual dom",
     "manipulation",
     "templating",
     "util"
@@ -39,6 +37,6 @@
     "ndaidong <ndaidong@gmail.com>"
   ],
   "bugs": {
-    "url": "https://github.com/ndaidong/vdom/issues"
+    "url": "https://github.com/ndaidong/doc/issues"
   }
 }
