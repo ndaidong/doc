@@ -1,5 +1,5 @@
 # doc
-Another small DOM & Event manipulation
+A lightweight DOM & Event manipulation.
 
 ## Setup
 
