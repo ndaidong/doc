@@ -135,9 +135,6 @@ doc.ready(function(){
       'padding-top': '2px'
     });
 
-    // set label
-    btn.html('Say Hello!');
-
     // set an event listener
     doc.Event.on(btn, 'click', function(){
         alert('Hello! How it\'s going?');
