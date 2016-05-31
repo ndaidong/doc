@@ -46,32 +46,27 @@
     return x;
   };
 
-  var normalize = (key) => {
+  var normalize = (k, v) => {
 
-    let cmap = {
-      'font-size': [ 'fontSize', 'font-size' ]
-    };
-
-    let prop;
-
-    if (!cmap.hasOwnProperty(key)) {
-      for (let k in cmap) {
-        if (cmap[k]) {
-          let v = cmap[k];
-          for (let i = 0; i < v.length; i++) {
-            let p = v[i];
-            if (p === key) {
-              prop = k;
-              break;
-            }
-          }
-        }
-      }
-      if (prop) {
-        return prop;
-      }
+    let reg = /^([a-z]+)([A-Z]{1})([a-z]+)$/;
+    let mat = k.match(reg);
+    if (mat && mat.index === 0) {
+      let a = [];
+      a.push(mat[1]);
+      a.push('-');
+      a.push(mat[2]);
+      a.push(mat[3]);
+      k = a.join('').toLowerCase();
     }
-    return key;
+
+    if (isNumber(v)) {
+      v += 'px';
+    }
+
+    return {
+      key: k,
+      value: v
+    };
   };
 
   var get, add, create, query, queryAll;
@@ -138,7 +133,7 @@
         return p;
       };
 
-      p.setProperties = (o) => {
+      p.setProperty = (o) => {
         for (let k in o) {
           if (o[k] !== '') {
             let v = o[k];
@@ -157,8 +152,8 @@
             if (o[k] !== '') {
               let v = o[k];
               if (isString(v) || isNumber(v)) {
-                let kx = normalize(k);
-                a.push([ kx, v ].join(':'));
+                let x = normalize(k, v);
+                a.push([ x.key, x.value ].join(':'));
               }
             }
           }
@@ -170,6 +165,7 @@
           let b = s.split(';');
           a = a.concat(b);
         }
+        a.push('');
         p.setAttribute('style', a.join(';'));
         return p;
       };

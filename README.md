@@ -117,20 +117,24 @@ doc.ready(function(){
 
 
     // create a button
-    var btn = doc.add('BUTTON');
+    var btn = doc.add('INPUT');
 
-    // set style
-    btn.setStyle({
-      color: 'red',
-      fontSize: 20
+    // add some attributes
+    btn.setProperty({
+      type: 'button',
+      id: 'btnLogin',
+      value: 'Login'
     });
 
-    // set style
+    // specify css style
     btn.setStyle({
       color: 'red',
-      fontSize: 20
+      fontSize: 15,
+      backgroundColor: '#ff6',
+      maxWidth: 500,
+      'padding-top': '2px'
     });
-    
+
     // set label
     btn.html('Say Hello!');
 

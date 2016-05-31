@@ -30,10 +30,7 @@ describe('Testing doc APIs', () => {
     let d = doc.create('DIV');
     it('Created element must have nodeType', () => {
       expect(d.nodeType).toBeDefined();
-    });
-    it('Created element must have been removed', () => {
       d.destroy();
-      expect(d.nodeType).toBeDefined();
     });
   });
 
@@ -42,10 +39,7 @@ describe('Testing doc APIs', () => {
     let d = doc.add('DIV');
     it('Added element must have nodeType', () => {
       expect(d.nodeType).toBeDefined();
-    });
-    it('Created element must have been removed', () => {
       d.destroy();
-      expect(d.nodeType).toBeDefined();
     });
   });
 
@@ -80,9 +74,9 @@ describe('Testing doc APIs', () => {
 
     keys.map(check);
 
-    describe('Element.setProperties', () => {
+    describe('Element.setProperty', () => {
 
-      d.setProperties({
+      d.setProperty({
         _name: 'Welcome',
         _key: 1234
       });
@@ -101,15 +95,15 @@ describe('Testing doc APIs', () => {
 
       d.setStyle({
         color: 'red',
-        fontSize: 15
+        fontSize: 15,
+        backgroundColor: 'green',
+        maxWidth: 500,
+        'margin-top': '20px'
       });
 
-      it('It must have the attribute "_name"', () => {
-        expect(d.hasAttribute('_name')).toBe(true);
-      });
-
-      it('It must have the attribute "_key"', () => {
-        expect(d.hasAttribute('_key')).toBe(true);
+      it('It must have the expected style', () => {
+        let o = d.getAttribute('style');
+        expect(o === 'color:red;font-size:15px;background-color:green;max-width:500px;margin-top:20px;').toBe(true);
       });
 
     });
