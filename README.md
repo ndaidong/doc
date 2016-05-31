@@ -71,7 +71,7 @@ Returned elements have several helpful methods as below:
  - .addClass(String className)
  - .removeClass(String  className)
  - .toggleClass(String  className)
- - .setProperties(Object atts)
+ - .setProperty(Object atts)
  - .setStyle(Object style)
  - .html([String html])
  - .empty()
