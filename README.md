@@ -3,67 +3,27 @@ A lightweight DOM & Event manipulation.
 
 ## Setup
 
-##### CDN
+- CDN
 
-```
-<script type="text/javascript" src="https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js"></script>
+   - [doc.min.js](https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js)
 
-<script type="text/javascript">
-  doc.Event.on('btnGenerate', 'click', (e) => {
-    doc.Event.stop(e);
-    var typ = doc.get('mainInput').value;
-    var txt = '';
-    switch (typ) {
-      case 'sentence': txt = txtgen.sentence(); break;
-      case 'paragraph': txt = txtgen.paragraph(); break;
-      case 'article': txt = txtgen.article(); break;
-    }
-    doc.get('result').value = txt;
-  });
-</script>
-```
+  ```
+  <script type="text/javascript" src="https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js"></script>
+  ```
 
-##### SystemJS
-
-```
-System.config({
-  baseURL: '/path/to/js/folder',
-  map: {
-    doc: 'doc.min'
-  }
-});
-
-System.import('doc').then(function(doc){
-  // use doc's methods here
-});
-```
-
-##### RequireJS
-
-```
-require.config({
-  baseUrl: '/path/to/js/folder',
-  paths: {
-    doc: 'doc.min'
-  }
-});
-
-requirejs('vdom', function(doc){
-  // use doc's methods here
-});
-
-```
+- This library also supports ES6 Module, AMD and UMD style.
 
 
 ## APIs
 
-#### Basic methods
+#### DOM
 
  - doc.one(String selectors)
  - doc.all(String selectors)
  - doc.get(String ID)
  - doc.add(Element|String tag [, Element parent])
  - doc.create(Element dom)
+ - doc.ready(Function callback)
 
 Returned elements have several helpful methods as below:
 
@@ -77,9 +37,6 @@ Returned elements have several helpful methods as below:
  - .empty()
  - .destroy()
 
-#### Callback on ready
-
- - doc.ready(Function callback)
 
 #### Events
 
@@ -95,57 +52,56 @@ Examples:
 ```
 doc.ready(function(){
 
-    // Add a new element to document.body
-    var container = doc.add('DIV');
+  // Add a new element to document.body
+  var container = doc.add('DIV');
 
-    // then add a DIV element into container
-    var div1 = doc.add('DIV', container);
+  // then add a DIV element into container
+  var div1 = doc.add('DIV', container);
 
-    // then add a class "sub-item" to child DIV
-    div1.addClass('sub-item');
+  // then add a class "sub-item" to child DIV
+  div1.addClass('sub-item');
 
-    // more a child DIV
-    var div2 = doc.add('DIV', container);
+  // more a child DIV
+  var div2 = doc.add('DIV', container);
 
-    // also add a class "sub-item"
-    div2.addClass('sub-item');
+  // also add a class "sub-item"
+  div2.addClass('sub-item');
 
-    // now, we can extract list of elements by class name:
-    var subItems = doc.all('.sub-item');
+  // now, we can extract list of elements by class name:
+  var subItems = doc.all('.sub-item');
 
-    console.log(subItems);
+  console.log(subItems);
 
 
-    // create a button
-    var btn = doc.add('INPUT');
+  // create a button
+  var btn = doc.add('INPUT');
 
-    // add some attributes
-    btn.setProperty({
-      type: 'button',
-      id: 'btnLogin',
-      value: 'Login'
-    });
+  // add some attributes
+  btn.setProperty({
+    type: 'button',
+    id: 'btnLogin',
+    value: 'Login'
+  });
 
-    // specify css style
-    btn.setStyle({
-      color: 'red',
-      fontSize: 15,
-      backgroundColor: '#ff6',
-      maxWidth: 500,
-      'padding-top': '2px'
-    });
+  // specify css style
+  btn.setStyle({
+    color: 'red',
+    fontSize: 15,
+    backgroundColor: '#ff6',
+    maxWidth: 500,
+    'padding-top': '2px'
+  });
 
-    // set an event listener
-    doc.Event.on(btn, 'click', function(){
-        alert('Hello! How it\'s going?');
-    });
+  // set an event listener
+  doc.Event.on(btn, 'click', function(){
+    alert('Hello! How it\'s going?');
+  });
 
-    // simulate a click event on there (it works as same as jQuery.trigger method)
-    doc.Event.simulate(btn, 'click');
+  // simulate a click event on there (it works as same as jQuery.trigger method)
+  doc.Event.simulate(btn, 'click');
 
 });
 ```
-
 
 
 # License
