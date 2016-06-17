@@ -5,8 +5,6 @@
 
 /* global doc */
 
-'use strict';
-
 describe('Testing doc APIs', () => {
 
   describe('Overview', () => {

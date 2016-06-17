@@ -3,18 +3,16 @@
  * @ndaidong
 **/
 
-'use strict';
-
-((factory) => {
+((name, factory) => {
   var root = window || {};
   if (root.define && root.define.amd) {
     root.define([], factory);
   } else if (root.exports) {
     root.exports = factory();
   } else {
-    root.doc = factory();
+    root[name] = factory();
   }
-})(() => { // eslint-disable-line no-invalid-this
+})('doc', () => { // eslint-disable-line no-invalid-this
 
   var isUndefined = (v) => {
     return v === undefined; // eslint-disable-line no-undefined
@@ -69,7 +67,7 @@
     };
   };
 
-  var get, add, create, query, queryAll;
+  var add, create, get, query, queryAll;
 
   get = (el) => {
     let p = (isString(el) ? document.getElementById(el) : el) || null;
@@ -153,7 +151,7 @@
               let v = o[k];
               if (isString(v) || isNumber(v)) {
                 let x = normalize(k, v);
-                a.push([ x.key, x.value ].join(':'));
+                a.push([x.key, x.value].join(':'));
               }
             }
           }
@@ -205,7 +203,8 @@
   };
 
   query = (c) => {
-    let el, tmp = document.querySelector(c);
+    let el;
+    let tmp = document.querySelector(c);
     if (tmp) {
       el = get(tmp);
     }
@@ -213,7 +212,8 @@
   };
 
   queryAll = (c) => {
-    let els = [], tmp = document.querySelectorAll(c);
+    let els = [];
+    let tmp = document.querySelectorAll(c);
     if (tmp) {
       for (let i = 0; i < tmp.length; i++) {
         els.push(get(tmp[i]));
@@ -224,7 +224,8 @@
 
   var onready = (fn) => {
     let rt = document.readyState;
-    if (rt !== 'loading') {
+    let c = rt !== 'loading';
+    if (c) {
       setTimeout(fn, 0);
     } else {
       document.addEventListener('DOMContentLoaded', fn);
@@ -235,7 +236,7 @@
 
     let isGecko = ((ua) => {
       let n = ua.toLowerCase();
-      return /gecko/i.test(n);
+      return (/gecko/i).test(n);
     })(navigator.userAgent);
 
     return {
@@ -267,7 +268,8 @@
         }
       },
       simulate: (element, event) => {
-        let evt, el = isString(element) ? get(element) : element;
+        let evt;
+        let el = isString(element) ? get(element) : element;
         if (document.createEventObject) {
           evt = document.createEventObject();
           el.fireEvent('on' + event, evt);
@@ -302,9 +304,9 @@
     ready: onready,
     one: query,
     all: queryAll,
-    get: get,
-    add: add,
-    create: create,
-    Event: Event
+    get,
+    add,
+    create,
+    Event
   };
 });
