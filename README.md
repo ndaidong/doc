@@ -5,10 +5,10 @@ A lightweight DOM & Event manipulation.
 
 - CDN
 
-   - [doc.min.js](https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js)
+   - [doc.min.js](https://rawgit.com/ndaidong/doc/master/dist/doc.min.js)
 
   ```
-  <script type="text/javascript" src="https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/ndaidong/doc/master/dist/doc.min.js"></script>
   ```
 
 - This library also supports ES6 Module, AMD and UMD style.
