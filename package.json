@@ -1,7 +1,7 @@
 {
-  "version": "0.1.1",
+  "version": "1.0.0",
   "name": "doc",
-  "description": "Small DOM Manipulation",
+  "description": "lightweight DOM Manipulation",
   "repository": {
     "type": "git",
     "url": "https://github.com/ndaidong/doc"
@@ -12,17 +12,30 @@
     "node": ">= 6.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/karma start test/karma.conf.js",
-    "build": "./node_modules/.bin/gccmin src dist"
+    "lint": "eslint .",
+    "snyk": "snyk test",
+    "karma": "karma start test/karma.conf.js",
+    "pretest": "npm run lint && npm run snyk",
+    "test": "npm run karma",
+    "build": "gccmin"
   },
   "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-ggc": "latest",
     "gcc-min": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-firefox-launcher": "latest",
     "karma-jasmine": "latest",
-    "karma-opera-launcher": "latest"
+    "karma-opera-launcher": "latest",
+    "snyk": "latest"
+  },
+  "gccmin": {
+    "source": "src",
+    "target": "dist",
+    "filename": "doc",
+    "globalVar": "doc"
   },
   "keywords": [
     "dom",
@@ -31,11 +44,5 @@
     "manipulation",
     "util"
   ],
-  "license": "MIT",
-  "maintainers": [
-    "ndaidong <ndaidong@gmail.com>"
-  ],
-  "bugs": {
-    "url": "https://github.com/ndaidong/doc/issues"
-  }
+  "license": "MIT"
 }
