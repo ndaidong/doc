@@ -1,15 +1,16 @@
 # doc
 A lightweight DOM & Event manipulation.
 
+[![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/doc.svg)](https://gemnasium.com/github.com/ndaidong/doc)
+[![Known Vulnerabilities](https://snyk.io/test/npm/doc/badge.svg)](https://snyk.io/test/npm/doc)
+
+
 ## Setup
 
 - CDN
 
-   - [doc.min.js](https://rawgit.com/ndaidong/doc/master/dist/doc.min.js)
-
-  ```
-  <script type="text/javascript" src="https://rawgit.com/ndaidong/doc/master/dist/doc.min.js"></script>
-  ```
+  - [doc.js](https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.js)
+  - [doc.min.js](https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js)
 
 - This library also supports ES6 Module, AMD and UMD style.
 
