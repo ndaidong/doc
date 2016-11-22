@@ -12,7 +12,6 @@ A lightweight DOM & Event manipulation.
   - [doc.js](https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.js)
   - [doc.min.js](https://cdn.rawgit.com/ndaidong/doc/master/dist/doc.min.js)
 
-
 - This library also supports ES6 Module, AMD and UMD style.
 
 
