@@ -1,7 +1,7 @@
 /**
  * doc
- * v1.0.0
- * built: Tue, 23 May 2017 11:26:34 GMT
+ * v1.1.0
+ * built: Tue, 23 May 2017 11:45:31 GMT
  * git: https://github.com/ndaidong/doc
  * author: @ndaidong
  * License: MIT
