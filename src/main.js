@@ -62,54 +62,80 @@ var nav = navigator;
 var win = window;
 var doc = document;
 
+add = (tag, parent) => {
+  let p = parent ? get(parent) : doc.body;
+  let d = isElement(tag) ? tag : doc.createElement(tag);
+  p.appendChild(d);
+  return get(d);
+};
+
+create = (tag) => {
+  return get(doc.createElement(tag));
+};
+
+query = (selector, root = doc) => {
+  let el;
+  let tmp = root.querySelector(selector);
+  if (tmp) {
+    el = get(tmp);
+  }
+  return el;
+};
+
+queryAll = (selector, root = doc) => {
+  let els = [];
+  let tmp = root.querySelectorAll(selector);
+  if (tmp) {
+    Array.from(tmp).forEach((el) => {
+      els.push(get(el));
+    });
+  }
+  return els;
+};
+
 get = (el) => {
   let p = (isString(el) ? doc.getElementById(el) : el) || null;
   if (p && isElement(p)) {
 
+    p.query = (selector) => {
+      return query(selector, p);
+    };
+    p.queryAll = (selector) => {
+      return queryAll(selector, p);
+    };
+
     let pc = p.classList;
 
-    p.hasClass = (c) => {
-      c = trim(c, true);
+    p.hasClass = (className) => {
+      let c = trim(className, true);
       if (!c) {
         return false;
       }
       return pc.contains(c);
     };
 
-    p.addClass = (c) => {
-      c = trim(c, true);
+    p.addClass = (className) => {
+      let c = trim(className, true);
       if (!c) {
         return false;
       }
       let a = c.split(' ');
-      if (a.length > 1) {
-        a.forEach((s) => {
-          pc.add(s);
-        });
-      } else {
-        pc.add(c);
-      }
+      pc.add(...a);
       return p;
     };
 
-    p.removeClass = (c) => {
-      c = trim(c, true);
+    p.removeClass = (className) => {
+      let c = trim(className, true);
       if (!c) {
         return false;
       }
       let a = c.split(' ');
-      if (a.length > 1) {
-        a.forEach((s) => {
-          pc.remove(s);
-        });
-      } else {
-        pc.remove(c);
-      }
+      pc.remove(...a);
       return p;
     };
 
-    p.toggleClass = (c) => {
-      c = trim(c, true);
+    p.toggleClass = (className) => {
+      let c = trim(className, true);
       if (!c) {
         return false;
       }
@@ -121,6 +147,14 @@ get = (el) => {
       } else {
         pc.toggle(c);
       }
+      return p;
+    };
+
+    p.replaceClass = (oldClass, newClass) => {
+      let o = trim(oldClass, true);
+      let n = trim(newClass, true);
+      p.removeClass(o);
+      p.addClass(n);
       return p;
     };
 
@@ -182,37 +216,6 @@ get = (el) => {
 
   }
   return p;
-};
-
-add = (tag, parent) => {
-  let p = parent ? get(parent) : doc.body;
-  let d = isElement(tag) ? tag : doc.createElement(tag);
-  p.appendChild(d);
-  return get(d);
-};
-
-create = (tag) => {
-  return get(doc.createElement(tag));
-};
-
-query = (c) => {
-  let el;
-  let tmp = doc.querySelector(c);
-  if (tmp) {
-    el = get(tmp);
-  }
-  return el;
-};
-
-queryAll = (c) => {
-  let els = [];
-  let tmp = doc.querySelectorAll(c);
-  if (tmp) {
-    for (let i = 0; i < tmp.length; i++) {
-      els.push(get(tmp[i]));
-    }
-  }
-  return els;
 };
 
 var onready = (fn) => {

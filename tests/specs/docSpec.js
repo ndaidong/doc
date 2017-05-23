@@ -106,6 +106,49 @@ describe('Testing doc APIs', () => {
 
     });
 
+    describe('Element.query', () => {
+
+      let ul = doc.add('UL', d);
+      let li1 = doc.add('LI', ul);
+      let li2 = doc.add('LI', ul);
+      let li3 = doc.add('LI', ul);
+
+      ul.addClass('noob');
+
+      li1.addClass('noob');
+      it('It must find out li1', () => {
+        let found = ul.query('.noob');
+        expect(found).toBe(li1);
+        expect(li2.hasClass('noob')).toBe(false);
+        expect(li3.hasClass('noob')).toBe(false);
+      });
+
+      ul.destroy();
+
+    });
+
+    describe('Element.queryAll', () => {
+
+      let ul = doc.add('UL', d);
+      let li1 = doc.add('LI', ul);
+      let li2 = doc.add('LI', ul);
+      let li3 = doc.add('LI', ul);
+
+      ul.addClass('noob');
+
+      li1.addClass('noob');
+      li3.addClass('noob');
+      it('It must find out li1, li3', () => {
+        let found = ul.queryAll('.noob');
+        expect(found[0]).toBe(li1);
+        expect(found[1]).toBe(li3);
+        expect(li2.hasClass('noob')).toBe(false);
+      });
+
+      ul.destroy();
+
+    });
+
     afterEach(() => {
       d.destroy();
       el.destroy();
@@ -131,6 +174,7 @@ describe('Testing doc APIs', () => {
   });
 
   describe('Test classes handling', () => {
+
     describe('Element has no class: call .addClass()', () => {
 
       let el = doc.add('DIV');
@@ -172,6 +216,23 @@ describe('Testing doc APIs', () => {
       it('.toggleClass("nano animate"): "nano" gone, "animate" came', () => {
         expect(el.hasClass('nano')).toBe(false);
         expect(el.hasClass('animate')).toBe(true);
+        expect(el.hasClass('selinium')).toBe(true);
+      });
+
+      afterEach(() => {
+        el.destroy();
+      });
+    });
+
+    describe('Element has 2 classes "nano selinium": call .replaceClass("nano", "sila")', () => {
+
+      let el = doc.add('DIV');
+      el.addClass('nano selinium');
+
+      el.replaceClass('nano', 'sila');
+      it('.replaceClass("nano", "sila"): "nano" gone, "sila" came', () => {
+        expect(el.hasClass('nano')).toBe(false);
+        expect(el.hasClass('sila')).toBe(true);
         expect(el.hasClass('selinium')).toBe(true);
       });
 

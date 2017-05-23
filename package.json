@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "doc",
   "description": "lightweight DOM Manipulation",
   "repository": {
@@ -13,23 +13,19 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "snyk": "snyk test",
+    "nsp": "nsp check --output checkstyle",
+    "pretest": "npm run lint && npm run nsp",
     "karma": "karma start test/karma.conf.js",
-    "pretest": "npm run lint && npm run snyk",
     "test": "npm run karma",
+    "posttest": "npm run nsp",
     "build": "gccmin"
   },
   "devDependencies": {
-    "eslint": "latest",
-    "eslint-config-ggc": "latest",
-    "gcc-min": "latest",
-    "jasmine-core": "latest",
-    "karma": "latest",
-    "karma-chrome-launcher": "latest",
-    "karma-firefox-launcher": "latest",
-    "karma-jasmine": "latest",
-    "karma-opera-launcher": "latest",
-    "snyk": "latest"
+    "bellajs": "6.x.x",
+    "eslint": "3.x.x",
+    "eslint-config-ggc": "1.x.x",
+    "gcc-min": "3.x.x",
+    "nsp": "2.x.x"
   },
   "gccmin": {
     "source": "src",

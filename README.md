@@ -2,7 +2,7 @@
 A lightweight DOM & Event manipulation.
 
 [![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/doc.svg)](https://gemnasium.com/github.com/ndaidong/doc)
-[![Known Vulnerabilities](https://snyk.io/test/npm/doc/badge.svg)](https://snyk.io/test/npm/doc)
+[![NSP Status](https://nodesecurity.io/orgs/techpush/projects/6f01ff56-33f5-4a95-a785-ffab6443f40a/badge)](https://nodesecurity.io/orgs/techpush/projects/6f01ff56-33f5-4a95-a785-ffab6443f40a)
 
 
 ## Setup
@@ -30,10 +30,13 @@ Returned elements have several helpful methods as below:
 
  - .hasClass(String className)
  - .addClass(String className)
- - .removeClass(String  className)
- - .toggleClass(String  className)
+ - .removeClass(String className)
+ - .toggleClass(String className)
+ - .replaceClass(String classNameOld, String classNameNew)
  - .setProperty(Object atts)
  - .setStyle(Object style)
+ - .query(String selectors)
+ - .queryAll(String selectors)
  - .html([String html])
  - .empty()
  - .destroy()
