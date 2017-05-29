@@ -5,7 +5,7 @@ var {
   isObject
 } = require('bellajs');
 
-var doc = require('../../src/main');
+var doc = require('../../dist/realdom.min');
 
 test('Test overview:', (assert) => {
 

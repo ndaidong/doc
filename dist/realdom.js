@@ -1,8 +1,8 @@
 /**
- * doc
- * v1.1.0
- * built: Tue, 23 May 2017 11:45:31 GMT
- * git: https://github.com/ndaidong/doc
+ * realdom
+ * v1.2.0
+ * built: Mon, 29 May 2017 15:37:16 GMT
+ * git: https://github.com/ndaidong/realdom
  * author: @ndaidong
  * License: MIT
 **/
@@ -16,32 +16,41 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   } else {
     var root = window || {};
     if (root.define && root.define.amd) {
-      root.define([], factory);
+      root.define('realdom', [], factory);
     } else if (root.exports) {
       root.exports = factory();
     } else {
       root[name] = factory();
     }
   }
-})('doc', function () {
+})('realdom', function () {
+
+  var ob2Str = function ob2Str(val) {
+    return {}.toString.call(val);
+  };
 
   var isUndefined = function isUndefined(v) {
     return v === undefined;
   };
+
   var isObject = function isObject(v) {
     return !isUndefined(v) && (typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object';
   };
+
   var isString = function isString(v) {
     return typeof v === 'string';
   };
+
   var isNumber = function isNumber(v) {
     return typeof v === 'number';
   };
+
   var isElement = function isElement(v) {
-    return v instanceof HTMLElement;
+    return ob2Str(v).match(/^\[object HTML\w*Element]$/);
   };
+
   var isFunction = function isFunction(v) {
-    return v && {}.toString.call(v) === '[object Function]';
+    return v && ob2Str(v) === '[object Function]';
   };
 
   var trim = function trim(s, all) {
@@ -196,7 +205,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         return p;
       };
 
+      var fixStyle = function fixStyle(s) {
+        return s.replace(/;+/gi, ';').replace(/:/gi, ': ') + ';';
+      };
+
       p.setStyle = function (o) {
+
         var a = [];
         if (isObject(o)) {
           for (var k in o) {
@@ -214,10 +228,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         var s = p.getAttribute('style');
         if (s) {
           var b = s.split(';');
-          a = a.concat(b);
+          a = b.concat(a);
         }
         a.push('');
-        p.setAttribute('style', a.join(';'));
+        var st = a.filter(function (item) {
+          return trim(item, true).length > 0;
+        }).map(function (item) {
+          var parts = item.split(':');
+          return parts.map(function (part) {
+            return trim(part, true);
+          }).join(':');
+        }).join('; ');
+        p.setAttribute('style', fixStyle(st));
         return p;
       };
 

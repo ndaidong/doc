@@ -4,7 +4,7 @@ var {
   isFunction
 } = require('bellajs');
 
-var doc = require('../../src/main');
+var doc = require('../../dist/realdom.min');
 
 let keys = [
   'addClass', 'hasClass', 'removeClass', 'toggleClass', 'replaceClass',
@@ -134,6 +134,49 @@ test('Test Element instance:', (assert) => {
 
   ul.destroy();
 
+  assert.comment('Check Element.hasClass(null)');
+  assert.equals(el.hasClass(), false, `Return false if empty`);
+
+  assert.comment('Check Element.addClass(null)');
+  assert.equals(el.addClass(), false, `Return false if empty`);
+
+  assert.comment('Check Element.removeClass(null)');
+  assert.equals(el.removeClass(), false, `Return false if empty`);
+
+  assert.comment('Check Element.toggleClass(null)');
+  assert.equals(el.toggleClass(), false, `Return false if empty`);
+
+  assert.comment('Add 3 classes: cool, good, amazing');
+  el.addClass('cool good amazing');
+  assert.ok(el.hasClass('cool'), `Element must have class "cool"`);
+  assert.ok(el.hasClass('good'), `Element must have class "good"`);
+  assert.ok(el.hasClass('amazing'), `Element must have class "amazing"`);
+
+  assert.comment(`Check Element.removeClass('cool good amazing')`);
+  el.removeClass('cool good amazing');
+  assert.ok(!el.hasClass('cool'), `Class "cool" must go out`);
+  assert.ok(!el.hasClass('good'), `Class "good" must go out`);
+  assert.ok(!el.hasClass('amazing'), `Class "amazing" must go out`);
+
+  assert.comment('Add 2 classes: cool, amazing');
+  el.addClass('cool amazing');
+  assert.ok(el.hasClass('cool'), `Element must have class "cool"`);
+  assert.ok(el.hasClass('amazing'), `Element must have class "amazing"`);
+
+  assert.comment(`Check Element.toggleClass('cool good')`);
+  el.toggleClass('cool good');
+  assert.ok(!el.hasClass('cool'), `Class "cool" must go out`);
+  assert.ok(el.hasClass('amazing'), `Class "amazing" is sill there`);
+  assert.ok(el.hasClass('good'), `Class "good" must come`);
+
+  assert.comment(`Check Element.toggleClass('amazing')`);
+  el.toggleClass('amazing');
+  assert.ok(!el.hasClass('amazing'), `Class "amazing" must go out`);
+
+  assert.comment(`Check Element.replaceClass('good', 'bad')`);
+  el.replaceClass('good', 'bad');
+  assert.ok(!el.hasClass('good'), `Class "good" must go out`);
+  assert.ok(el.hasClass('bad'), `Class "bad" must come`);
 
   assert.comment('Test Element.destroy()');
   el.destroy();

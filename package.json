@@ -1,10 +1,10 @@
 {
-  "version": "1.1.0",
-  "name": "doc",
+  "version": "1.2.0",
+  "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ndaidong/doc"
+    "url": "https://github.com/ndaidong/realdom"
   },
   "author": "@ndaidong",
   "main": "./index.js",
@@ -31,14 +31,15 @@
     "jsdom": "11.x.x",
     "nsp": "2.x.x",
     "nyc": "10.x.x",
+    "sinon": "2.x.x",
     "tap-spec": "4.x.x",
     "tape": "4.x.x"
   },
   "gccmin": {
     "source": "src",
     "target": "dist",
-    "filename": "doc",
-    "globalVar": "doc"
+    "filename": "realdom",
+    "globalVar": "realdom"
   },
   "keywords": [
     "dom",
