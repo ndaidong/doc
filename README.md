@@ -17,6 +17,33 @@ A lightweight DOM & Event manipulation.
 
 - This library also supports ES6 Module, AMD and UMD style.
 
+# Usage
+
+```
+var {
+  add,
+  create
+} = require('realdom');
+
+// or
+import {add, create} from 'realdom';
+
+let div = create('DIV');
+div.addClass('panel');
+
+let span = add('SPAN', div);
+span.html('Hello world');
+// ...
+
+```
+
+### How does it work?
+
+Here are several examples:
+
+- [Material Design - Ripple effect](https://codepen.io/ndaidong/pen/VbNPBa)
+- [Material Design - Floating input label](https://codepen.io/ndaidong/pen/NjmYrj)
+
 
 # APIs
 
