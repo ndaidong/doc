@@ -1,9 +1,9 @@
 # realdom
 A lightweight DOM & Event manipulation.
 
-[![Build Status](https://travis-ci.org/ndaidong/realdom.svg?branch=master)](https://travis-ci.org/ndaidong/doc)
+[![Build Status](https://travis-ci.org/ndaidong/realdom.svg?branch=master)](https://travis-ci.org/ndaidong/realdom)
 [![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/realdom.svg)](https://gemnasium.com/github.com/ndaidong/realdom)
-[![NSP Status](https://nodesecurity.io/orgs/techpush/projects/6f01ff56-33f5-4a95-a785-ffab6443f40a/badge)](https://nodesecurity.io/orgs/techpush/projects/6f01ff56-33f5-4a95-a785-ffab6443f40a)
+[![NSP Status](https://nodesecurity.io/orgs/techpush/projects/c17a1b90-3c86-41f1-82fb-0c1f76e71cbb/badge)](https://nodesecurity.io/orgs/techpush/projects/c17a1b90-3c86-41f1-82fb-0c1f76e71cbb)
 
 
 # Setup
@@ -44,7 +44,7 @@ Returned elements have several helpful methods as below:
  - .destroy()
 
 
-#### Events
+#### Event
 
 - .Event.on(String|Element s, String eventName, Function callback)
 - .Event.off(String|Element s, String eventName, Function callback)
