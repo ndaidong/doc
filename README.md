@@ -17,16 +17,10 @@ A lightweight DOM & Event manipulation.
 
 - This library also supports ES6 Module, AMD and UMD style.
 
-# Usage
+### Usage
 
 ```
-var {
-  add,
-  create
-} = require('realdom');
-
-// or
-import {add, create} from 'realdom';
+import {create, add} from 'realdom';
 
 let div = create('DIV');
 div.addClass('panel');
@@ -43,7 +37,7 @@ Here are several examples:
 
 - [Material Design - Ripple effect](https://codepen.io/ndaidong/pen/VbNPBa)
 - [Material Design - Floating input label](https://codepen.io/ndaidong/pen/NjmYrj)
-
+- [Test CSS 3D transform](https://codepen.io/ndaidong/pen/JRmXvZ)
 
 # APIs
 
