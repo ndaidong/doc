@@ -1,7 +1,7 @@
 {
   "version": "1.1.0",
   "name": "doc",
-  "description": "lightweight DOM Manipulation",
+  "description": "Lightweight DOM Manipulation library",
   "repository": {
     "type": "git",
     "url": "https://github.com/ndaidong/doc"
@@ -12,20 +12,27 @@
     "node": ">= 6.0"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint ./src ./tests",
     "nsp": "nsp check --output checkstyle",
+    "tape": "nyc tape tests/start.js | tap-spec",
+    "report": "nyc report --reporter=lcov",
     "pretest": "npm run lint && npm run nsp",
-    "karma": "karma start test/karma.conf.js",
-    "test": "npm run karma",
-    "posttest": "npm run nsp",
+    "test": "npm run tape",
+    "posttest": "npm run report",
+    "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
     "build": "gccmin"
   },
   "devDependencies": {
     "bellajs": "6.x.x",
+    "coveralls": "2.x.x",
     "eslint": "3.x.x",
     "eslint-config-ggc": "1.x.x",
     "gcc-min": "3.x.x",
-    "nsp": "2.x.x"
+    "jsdom": "11.x.x",
+    "nsp": "2.x.x",
+    "nyc": "10.x.x",
+    "tap-spec": "4.x.x",
+    "tape": "4.x.x"
   },
   "gccmin": {
     "source": "src",

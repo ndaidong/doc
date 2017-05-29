@@ -3,23 +3,32 @@
  * @ndaidong
 **/
 
+var ob2Str = (val) => {
+  return {}.toString.call(val);
+};
+
 var isUndefined = (v) => {
   return v === undefined; // eslint-disable-line no-undefined
 };
+
 var isObject = (v) => {
   return !isUndefined(v) && typeof v === 'object';
 };
+
 var isString = (v) => {
   return typeof v === 'string';
 };
+
 var isNumber = (v) => {
   return typeof v === 'number';
 };
+
 var isElement = (v) => {
-  return v instanceof HTMLElement;
+  return ob2Str(v).match(/^\[object HTML\w*Element]$/);
 };
+
 var isFunction = (v) => {
-  return v && {}.toString.call(v) === '[object Function]';
+  return v && ob2Str(v) === '[object Function]';
 };
 
 var trim = (s, all) => {
@@ -170,7 +179,12 @@ get = (el) => {
       return p;
     };
 
+    let fixStyle = (s) => {
+      return s.replace(/;+/gi, ';').replace(/:/gi, ': ') + ';';
+    };
+
     p.setStyle = (o) => {
+
       let a = [];
       if (isObject(o)) {
         for (let k in o) {
@@ -188,10 +202,18 @@ get = (el) => {
       let s = p.getAttribute('style');
       if (s) {
         let b = s.split(';');
-        a = a.concat(b);
+        a = b.concat(a);
       }
       a.push('');
-      p.setAttribute('style', a.join(';'));
+      let st = a.filter((item) => {
+        return trim(item, true).length > 0;
+      }).map((item) => {
+        let parts = item.split(':');
+        return parts.map((part) => {
+          return trim(part, true);
+        }).join(':');
+      }).join('; ');
+      p.setAttribute('style', fixStyle(st));
       return p;
     };
 
