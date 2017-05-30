@@ -1,0 +1,9 @@
+{
+  "extends": "eslint-config-ggc",
+  "env": {
+    "browser": true,
+    "node": true,
+    "protractor": true,
+    "jasmine": true
+  }
+}
