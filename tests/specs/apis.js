@@ -10,7 +10,7 @@ var doc = require('../../dist/realdom.min');
 test('Test overview:', (assert) => {
 
   let keys = [
-    'add', 'all', 'create', 'get', 'one', 'ready'
+    'add', 'queryAll', 'create', 'get', 'query', 'ready'
   ];
 
   let check = (k) => {

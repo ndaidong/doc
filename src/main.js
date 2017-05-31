@@ -1,5 +1,5 @@
 /**
- * doc
+ * realdom
  * @ndaidong
 **/
 
@@ -65,24 +65,32 @@ var normalize = (k, v) => {
   };
 };
 
-var add, create, get, query, queryAll;
-
 var nav = navigator;
 var win = window;
 var doc = document;
 
-add = (tag, parent) => {
+var attachBehaviors;
+
+export var get = (el) => {
+  let p = (isString(el) ? doc.getElementById(el) : el) || null;
+  if (p && !p.___BEHAVIORS_ATTACHED) {
+    return attachBehaviors(p);
+  }
+  return p;
+};
+
+export var add = (tag, parent) => {
   let p = parent ? get(parent) : doc.body;
   let d = isElement(tag) ? tag : doc.createElement(tag);
   p.appendChild(d);
   return get(d);
 };
 
-create = (tag) => {
+export var create = (tag) => {
   return get(doc.createElement(tag));
 };
 
-query = (selector, root = doc) => {
+export var query = (selector, root = doc) => {
   let el;
   let tmp = root.querySelector(selector);
   if (tmp) {
@@ -91,7 +99,7 @@ query = (selector, root = doc) => {
   return el;
 };
 
-queryAll = (selector, root = doc) => {
+export var queryAll = (selector, root = doc) => {
   let els = [];
   let tmp = root.querySelectorAll(selector);
   if (tmp) {
@@ -102,8 +110,7 @@ queryAll = (selector, root = doc) => {
   return els;
 };
 
-get = (el) => {
-  let p = (isString(el) ? doc.getElementById(el) : el) || null;
+attachBehaviors = (p) => {
   if (p && isElement(p)) {
 
     p.query = (selector) => {
@@ -236,11 +243,13 @@ get = (el) => {
       }
     };
 
+    p.___BEHAVIORS_ATTACHED = 1;
+
   }
   return p;
 };
 
-var onready = (fn) => {
+export var ready = (fn) => {
   let rt = doc.readyState;
   let c = rt !== 'loading';
   if (c) {
@@ -250,7 +259,7 @@ var onready = (fn) => {
   }
 };
 
-var Event = (() => {
+export var Event = (() => {
 
   let isGecko = ((ua) => {
     let n = ua.toLowerCase();
@@ -317,13 +326,3 @@ var Event = (() => {
     }
   };
 })();
-
-module.exports = {
-  ready: onready,
-  one: query,
-  all: queryAll,
-  get,
-  add,
-  create,
-  Event
-};

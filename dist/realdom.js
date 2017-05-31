@@ -1,36 +1,98 @@
 /**
  * realdom
- * v2.1.0
- * built: Tue, 30 May 2017 03:46:13 GMT
+ * v3.0.0
+ * built: Wed, 31 May 2017 12:43:24 GMT
  * git: https://github.com/ndaidong/realdom
  * author: @ndaidong
  * License: MIT
 **/
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.realdom = global.realdom || {})));
+}(this, (function (exports) { 'use strict';
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
 
-;(function (name, factory) {
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory();
-  } else {
-    var root = window || {};
-    if (root.define && root.define.amd) {
-      root.define('realdom', [], factory);
-    } else if (root.exports) {
-      root.exports = factory();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var toConsumableArray = function (arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
     } else {
-      root[name] = factory();
+      return Array.from(arr);
     }
-  }
-})('realdom', function () {
+  };
+
+  /**
+   * realdom
+   * @ndaidong
+  **/
 
   var ob2Str = function ob2Str(val) {
     return {}.toString.call(val);
   };
 
   var isUndefined = function isUndefined(v) {
-    return v === undefined;
+    return v === undefined; // eslint-disable-line no-undefined
   };
 
   var isObject = function isObject(v) {
@@ -87,49 +149,56 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
   };
 
-  var add, create, get, query, queryAll;
-
   var nav = navigator;
   var win = window;
   var doc = document;
 
-  add = function add(tag, parent) {
-    var p = parent ? get(parent) : doc.body;
+  var attachBehaviors;
+
+  var get$$1 = function get$$1(el) {
+    var p = (isString(el) ? doc.getElementById(el) : el) || null;
+    if (p && !p.___BEHAVIORS_ATTACHED) {
+      return attachBehaviors(p);
+    }
+    return p;
+  };
+
+  var add = function add(tag, parent) {
+    var p = parent ? get$$1(parent) : doc.body;
     var d = isElement(tag) ? tag : doc.createElement(tag);
     p.appendChild(d);
-    return get(d);
+    return get$$1(d);
   };
 
-  create = function create(tag) {
-    return get(doc.createElement(tag));
+  var create = function create(tag) {
+    return get$$1(doc.createElement(tag));
   };
 
-  query = function query(selector) {
+  var query = function query(selector) {
     var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : doc;
 
     var el = void 0;
     var tmp = root.querySelector(selector);
     if (tmp) {
-      el = get(tmp);
+      el = get$$1(tmp);
     }
     return el;
   };
 
-  queryAll = function queryAll(selector) {
+  var queryAll = function queryAll(selector) {
     var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : doc;
 
     var els = [];
     var tmp = root.querySelectorAll(selector);
     if (tmp) {
       Array.from(tmp).forEach(function (el) {
-        els.push(get(el));
+        els.push(get$$1(el));
       });
     }
     return els;
   };
 
-  get = function get(el) {
-    var p = (isString(el) ? doc.getElementById(el) : el) || null;
+  attachBehaviors = function attachBehaviors(p) {
     if (p && isElement(p)) {
 
       p.query = function (selector) {
@@ -155,7 +224,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           return false;
         }
         var a = c.split(' ');
-        pc.add.apply(pc, _toConsumableArray(a));
+        pc.add.apply(pc, toConsumableArray(a));
         return p;
       };
 
@@ -165,7 +234,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           return false;
         }
         var a = c.split(' ');
-        pc.remove.apply(pc, _toConsumableArray(a));
+        pc.remove.apply(pc, toConsumableArray(a));
         return p;
       };
 
@@ -261,11 +330,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           p.parentNode.removeChild(p);
         }
       };
+
+      p.___BEHAVIORS_ATTACHED = 1;
     }
     return p;
   };
 
-  var onready = function onready(fn) {
+  var ready = function ready(fn) {
     var rt = doc.readyState;
     var c = rt !== 'loading';
     if (c) {
@@ -286,7 +357,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return {
       on: function on(element, event, fn) {
         if (fn && isFunction(fn)) {
-          var el = isString(element) ? get(element) : element;
+          var el = isString(element) ? get$$1(element) : element;
           if (el && isElement(el)) {
             if (event === 'wheel') {
               event = isGecko ? 'DOMMouseScroll' : 'mousewheel';
@@ -301,7 +372,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       },
       off: function off(element, event, fn) {
         if (fn && isFunction(fn)) {
-          var el = isString(element) ? get(element) : element;
+          var el = isString(element) ? get$$1(element) : element;
           if (el && isElement(el)) {
             if (el.removeEventListener) {
               el.removeEventListener(event, fn, false);
@@ -313,7 +384,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       },
       simulate: function simulate(element, event) {
         var evt = void 0;
-        var el = isString(element) ? get(element) : element;
+        var el = isString(element) ? get$$1(element) : element;
         if (doc.createEventObject) {
           evt = doc.createEventObject();
           el.fireEvent('on' + event, evt);
@@ -339,18 +410,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         if (targ && targ.nodeType === 3) {
           targ = targ.parentNode;
         }
-        return get(targ);
+        return get$$1(targ);
       }
     };
   }();
 
-  return {
-    ready: onready,
-    one: query,
-    all: queryAll,
-    get: get,
-    add: add,
-    create: create,
-    Event: Event
-  };
-});
+  exports.get = get$$1;
+  exports.add = add;
+  exports.create = create;
+  exports.query = query;
+  exports.queryAll = queryAll;
+  exports.ready = ready;
+  exports.Event = Event;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
