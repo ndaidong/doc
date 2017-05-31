@@ -1,5 +1,5 @@
 {
-  "version": "3.1.0",
+  "version": "3.1.1",
   "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/ndaidong/realdom"
   },
   "author": "@ndaidong",
-  "main": "./index.js",
+  "main": "./dist/realdom.js",
   "module": "./src/main",
   "jsnext:main": "./src/main",
   "browser": "./dist/realdom.min.js",
@@ -38,6 +38,7 @@
     "nyc": "10.x.x",
     "rollup": "0.x.x",
     "rollup-plugin-babel": "2.x.x",
+    "rollup-plugin-cleanup": "1.x.x",
     "rollup-plugin-commonjs": "8.x.x",
     "rollup-plugin-node-resolve": "3.x.x",
     "sinon": "2.x.x",
