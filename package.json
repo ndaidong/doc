@@ -1,5 +1,5 @@
 {
-  "version": "3.0.1",
+  "version": "3.1.0",
   "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
   "repository": {
@@ -8,6 +8,9 @@
   },
   "author": "@ndaidong",
   "main": "./index.js",
+  "module": "./src/main",
+  "jsnext:main": "./src/main",
+  "browser": "./dist/realdom.min.js",
   "engines": {
     "node": ">= 6.0"
   },

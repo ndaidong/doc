@@ -1,7 +1,7 @@
 /**
  * realdom
- * v3.0.1
- * built: Wed, 31 May 2017 13:36:51 GMT
+ * v3.1.0
+ * built: Wed, 31 May 2017 17:32:12 GMT
  * git: https://github.com/ndaidong/realdom
  * author: @ndaidong
  * License: MIT
