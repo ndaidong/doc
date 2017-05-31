@@ -41,7 +41,7 @@ var release = (output) => {
   }
   exec(`mkdir ${OUTPUT_DIR}`);
 
-  writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.js`, [fullHeader, output.code].join('\n').replace(/\n+/, '\n'));
+  writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.js`, [fullHeader, output.code].join('\n'));
   writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.js`, [minHeader, output.minified].join('\n'));
 };
 

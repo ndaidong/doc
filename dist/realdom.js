@@ -1,7 +1,7 @@
 /**
  * realdom
- * v3.0.0
- * built: Wed, 31 May 2017 12:49:44 GMT
+ * v3.0.1
+ * built: Wed, 31 May 2017 13:26:51 GMT
  * git: https://github.com/ndaidong/realdom
  * author: @ndaidong
  * License: MIT
@@ -11,110 +11,40 @@
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (factory((global.realdom = global.realdom || {})));
 }(this, (function (exports) { 'use strict';
-
   var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
     return typeof obj;
   } : function (obj) {
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   var toConsumableArray = function (arr) {
     if (Array.isArray(arr)) {
       for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
       return arr2;
     } else {
       return Array.from(arr);
     }
   };
-
-  /**
-   * realdom
-   * @ndaidong
-  **/
-
   var ob2Str = function ob2Str(val) {
     return {}.toString.call(val);
   };
-
   var isUndefined = function isUndefined(v) {
-    return v === undefined; // eslint-disable-line no-undefined
+    return v === undefined;
   };
-
   var isObject = function isObject(v) {
     return !isUndefined(v) && (typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object';
   };
-
   var isString = function isString(v) {
     return typeof v === 'string';
   };
-
   var isNumber = function isNumber(v) {
     return typeof v === 'number';
   };
-
   var isElement = function isElement(v) {
     return ob2Str(v).match(/^\[object HTML\w*Element]$/);
   };
-
   var isFunction = function isFunction(v) {
     return v && ob2Str(v) === '[object Function]';
   };
-
   var trim = function trim(s, all) {
     if (!isString(s)) {
       return '';
@@ -125,9 +55,7 @@
     }
     return x;
   };
-
   var normalize = function normalize(k, v) {
-
     var reg = /^([a-z]+)([A-Z]{1})([a-z]+)$/;
     var mat = k.match(reg);
     if (mat && mat.index === 0) {
@@ -138,23 +66,18 @@
       a.push(mat[3]);
       k = a.join('').toLowerCase();
     }
-
     if (isNumber(v)) {
       v += 'px';
     }
-
     return {
       key: k,
       value: v
     };
   };
-
   var nav = navigator;
   var win = window;
   var doc = document;
-
   var attachBehaviors;
-
   var get$$1 = function get$$1(el) {
     var p = (isString(el) ? doc.getElementById(el) : el) || null;
     if (p && !p.___BEHAVIORS_ATTACHED) {
@@ -162,21 +85,17 @@
     }
     return p;
   };
-
   var add = function add(tag, parent) {
     var p = parent ? get$$1(parent) : doc.body;
     var d = isElement(tag) ? tag : doc.createElement(tag);
     p.appendChild(d);
     return get$$1(d);
   };
-
   var create = function create(tag) {
     return get$$1(doc.createElement(tag));
   };
-
   var query = function query(selector) {
     var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : doc;
-
     var el = void 0;
     var tmp = root.querySelector(selector);
     if (tmp) {
@@ -184,10 +103,8 @@
     }
     return el;
   };
-
   var queryAll = function queryAll(selector) {
     var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : doc;
-
     var els = [];
     var tmp = root.querySelectorAll(selector);
     if (tmp) {
@@ -197,19 +114,15 @@
     }
     return els;
   };
-
   attachBehaviors = function attachBehaviors(p) {
     if (p && isElement(p)) {
-
       p.query = function (selector) {
         return query(selector, p);
       };
       p.queryAll = function (selector) {
         return queryAll(selector, p);
       };
-
       var pc = p.classList;
-
       p.hasClass = function (className) {
         var c = trim(className, true);
         if (!c) {
@@ -217,7 +130,6 @@
         }
         return pc.contains(c);
       };
-
       p.addClass = function (className) {
         var c = trim(className, true);
         if (!c) {
@@ -227,7 +139,6 @@
         pc.add.apply(pc, toConsumableArray(a));
         return p;
       };
-
       p.removeClass = function (className) {
         var c = trim(className, true);
         if (!c) {
@@ -237,7 +148,6 @@
         pc.remove.apply(pc, toConsumableArray(a));
         return p;
       };
-
       p.toggleClass = function (className) {
         var c = trim(className, true);
         if (!c) {
@@ -253,7 +163,6 @@
         }
         return p;
       };
-
       p.replaceClass = function (oldClass, newClass) {
         var o = trim(oldClass, true);
         var n = trim(newClass, true);
@@ -261,7 +170,6 @@
         p.addClass(n);
         return p;
       };
-
       p.setProperty = function (o) {
         for (var k in o) {
           if (o[k] !== '') {
@@ -273,13 +181,10 @@
         }
         return p;
       };
-
       var fixStyle = function fixStyle(s) {
         return s.replace(/;+/gi, ';').replace(/:/gi, ': ') + ';';
       };
-
       p.setStyle = function (o) {
-
         var a = [];
         if (isObject(o)) {
           for (var k in o) {
@@ -311,12 +216,10 @@
         p.setAttribute('style', fixStyle(st));
         return p;
       };
-
       p.empty = function () {
         p.innerHTML = '';
         return p;
       };
-
       p.html = function (s) {
         if (isUndefined(s)) {
           return p.innerHTML;
@@ -324,18 +227,15 @@
         p.innerHTML = s;
         return p;
       };
-
       p.destroy = function () {
         if (p.parentNode) {
           p.parentNode.removeChild(p);
         }
       };
-
       p.___BEHAVIORS_ATTACHED = 1;
     }
     return p;
   };
-
   var ready = function ready(fn) {
     var rt = doc.readyState;
     var c = rt !== 'loading';
@@ -345,15 +245,12 @@
       doc.addEventListener('DOMContentLoaded', fn);
     }
   };
-
   var Event = function () {
-
     var isGecko = function (ua) {
       var n = ua.toLowerCase();
       return (/gecko/i.test(n)
       );
     }(nav.userAgent);
-
     return {
       on: function on(element, event, fn) {
         if (fn && isFunction(fn)) {
@@ -414,7 +311,6 @@
       }
     };
   }();
-
   exports.get = get$$1;
   exports.add = add;
   exports.create = create;
@@ -422,7 +318,5 @@
   exports.queryAll = queryAll;
   exports.ready = ready;
   exports.Event = Event;
-
   Object.defineProperty(exports, '__esModule', { value: true });
-
 })));
