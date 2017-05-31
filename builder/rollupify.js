@@ -5,7 +5,6 @@ var rollup = require('rollup');
 var babel = require('rollup-plugin-babel');
 var nodeResolve = require('rollup-plugin-node-resolve');
 var commonjs = require('rollup-plugin-commonjs');
-var cleanup = require('rollup-plugin-cleanup');
 
 var {minify} = require('uglify-js');
 
@@ -45,9 +44,6 @@ var rollupify = (entry, gname) => {
         plugins: [
           'external-helpers'
         ]
-      }),
-      cleanup({
-        maxEmptyLines: 1
       })
     ]
   }).then((bundle) => {

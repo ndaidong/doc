@@ -35,7 +35,6 @@
     "nyc": "10.x.x",
     "rollup": "0.x.x",
     "rollup-plugin-babel": "2.x.x",
-    "rollup-plugin-cleanup": "1.x.x",
     "rollup-plugin-commonjs": "8.x.x",
     "rollup-plugin-node-resolve": "3.x.x",
     "sinon": "2.x.x",
