@@ -5,6 +5,7 @@ var rollup = require('rollup');
 var babel = require('rollup-plugin-babel');
 var nodeResolve = require('rollup-plugin-node-resolve');
 var commonjs = require('rollup-plugin-commonjs');
+var cleanup = require('rollup-plugin-cleanup');
 
 var {minify} = require('uglify-js');
 
@@ -13,6 +14,10 @@ const ENV = process.env.NODE_ENV || 'development'; // eslint-disable-line
 var jsminify = (source = '') => {
   let {code} = minify(source);
   return code;
+};
+
+let removeBr = (s) => {
+  return s.replace(/(\r\n+|\n+|\r+)/gm, '\n');
 };
 
 var rollupify = (entry, gname) => {
@@ -40,6 +45,9 @@ var rollupify = (entry, gname) => {
         plugins: [
           'external-helpers'
         ]
+      }),
+      cleanup({
+        maxEmptyLines: 1
       })
     ]
   }).then((bundle) => {
@@ -53,7 +61,7 @@ var rollupify = (entry, gname) => {
     let {code} = result;
 
     let output = {
-      code
+      code: removeBr(code)
     };
 
     if (ENV === 'production') {
