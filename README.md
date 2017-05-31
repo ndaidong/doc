@@ -45,13 +45,22 @@ Here are several examples:
 
 ### DOM
 
- - .one(String selectors)
- - .all(String selectors)
+```
+import {
+  ready,
+  create,
+  add,
+  get,
+  query,
+  queryAll
+} from 'realdom';
+
+ - .query(String selectors)
+ - .queryAll(String selectors)
  - .get(String ID)
  - .add(Element|String tag [, Element parent])
  - .create(Element dom)
  - .ready(Function callback)
- - .Event
 
 Returned elements have several helpful methods as below:
 
@@ -70,6 +79,10 @@ Returned elements have several helpful methods as below:
 
 
 #### Event
+
+```
+import { Event } from 'realdom';
+```
 
 - .Event.on(String|Element s, String eventName, Function callback)
 - .Event.off(String|Element s, String eventName, Function callback)

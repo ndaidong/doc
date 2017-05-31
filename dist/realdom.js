@@ -1,7 +1,7 @@
 /**
  * realdom
  * v3.0.1
- * built: Wed, 31 May 2017 13:26:51 GMT
+ * built: Wed, 31 May 2017 13:36:51 GMT
  * git: https://github.com/ndaidong/realdom
  * author: @ndaidong
  * License: MIT
@@ -24,11 +24,15 @@
       return Array.from(arr);
     }
   };
+  /**
+   * realdom
+   * @ndaidong
+  **/
   var ob2Str = function ob2Str(val) {
     return {}.toString.call(val);
   };
   var isUndefined = function isUndefined(v) {
-    return v === undefined;
+    return v === undefined; // eslint-disable-line no-undefined
   };
   var isObject = function isObject(v) {
     return !isUndefined(v) && (typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object';
