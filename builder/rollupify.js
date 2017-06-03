@@ -20,7 +20,7 @@ let removeBr = (s) => {
   return s.replace(/(\r\n+|\n+|\r+)/gm, '\n');
 };
 
-var rollupify = (entry) => {
+var rollupify = (entry, name) => {
   console.log('Rollup start...');
   return rollup.rollup({
     entry,
@@ -49,8 +49,8 @@ var rollupify = (entry) => {
     let result = bundle.generate({
       format: 'umd',
       indent: true,
-      moduleId: 'PPSW',
-      moduleName: 'PPSW'
+      moduleId: name,
+      moduleName: name
     });
     console.log('Rolling finished.');
 
@@ -75,7 +75,7 @@ var rollupify = (entry) => {
   });
 };
 
-module.exports = async (entry) => {
-  let output = await rollupify(entry);
+module.exports = async (entry, name) => {
+  let output = await rollupify(entry, name);
   return output;
 };
