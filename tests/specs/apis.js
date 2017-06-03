@@ -5,21 +5,31 @@ var {
   isObject
 } = require('bellajs');
 
-var doc = require('../../dist/realdom.min');
+require('jsdom-global')();
 
-test('Test overview:', (assert) => {
+var es6RD = require('../../src/main');
+var fullRD = require('../../dist/realdom');
+var minRD = require('../../dist/realdom.min');
 
-  let keys = [
-    'add', 'queryAll', 'create', 'get', 'query', 'ready'
-  ];
+var checkAPIs = (doc) => {
+  test('Test overview:', (assert) => {
 
-  let check = (k) => {
-    assert.ok(isFunction(doc[k]), `doc.${k} must be function`);
-  };
+    let keys = [
+      'add', 'queryAll', 'create', 'get', 'query', 'ready'
+    ];
 
-  keys.map(check);
+    let check = (k) => {
+      assert.ok(isFunction(doc[k]), `doc.${k} must be function`);
+    };
 
-  assert.ok(isObject(doc.Event), `doc.Event must be object`);
+    keys.map(check);
 
-  assert.end();
-});
+    assert.ok(isObject(doc.Event), `doc.Event must be object`);
+
+    assert.end();
+  });
+};
+
+[es6RD, fullRD, minRD].map(checkAPIs);
+
+

@@ -1,21 +1,16 @@
 /**
  * realdom
- * v3.1.1
- * built: Wed, 31 May 2017 17:47:59 GMT
+ * v3.1.2
+ * built: Sat, 03 Jun 2017 13:19:02 GMT
  * git: https://github.com/ndaidong/realdom
  * author: @ndaidong
  * License: MIT
 **/
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.realdom = global.realdom || {})));
+  typeof define === 'function' && define.amd ? define('PPSW', ['exports'], factory) :
+  (factory((global.PPSW = global.PPSW || {})));
 }(this, (function (exports) { 'use strict';
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  };
   var toConsumableArray = function (arr) {
     if (Array.isArray(arr)) {
       for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
@@ -27,34 +22,52 @@
   var ob2Str = function ob2Str(val) {
     return {}.toString.call(val);
   };
-  var isUndefined = function isUndefined(v) {
-    return v === undefined;
+  var isUndefined = function isUndefined(val) {
+    return ob2Str(val) === '[object Undefined]';
   };
-  var isObject = function isObject(v) {
-    return !isUndefined(v) && (typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object';
+  var isFunction = function isFunction(val) {
+    return ob2Str(val) === '[object Function]';
   };
-  var isString = function isString(v) {
-    return typeof v === 'string';
+  var isString = function isString(val) {
+    return ob2Str(val) === '[object String]';
   };
-  var isNumber = function isNumber(v) {
-    return typeof v === 'number';
+  var isNumber = function isNumber(val) {
+    return ob2Str(val) === '[object Number]';
+  };
+  var isArray = function isArray(val) {
+    return Array.isArray(val);
+  };
+  var isObject = function isObject(val) {
+    return ob2Str(val) === '[object Object]' && !isArray(val);
   };
   var isElement = function isElement(v) {
     return ob2Str(v).match(/^\[object HTML\w*Element]$/);
   };
-  var isFunction = function isFunction(v) {
-    return v && ob2Str(v) === '[object Function]';
-  };
-  var trim = function trim(s, all) {
+  var toString = function toString(input) {
+    var s = isNumber(input) ? String(input) : input;
     if (!isString(s)) {
-      return '';
+      throw new Error('InvalidInput: String required.');
     }
-    var x = s ? s.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '') : s || '';
+    return s;
+  };
+  var trim = function trim(s) {
+    var all = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var x = toString(s);
+    x = x.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '');
     if (x && all) {
-      return x.replace(/\r?\n|\r/g, ' ').replace(/\s\s+|\r/g, ' ');
+      x = x.replace(/\r?\n|\r/g, ' ').replace(/\s\s+|\r/g, ' ');
     }
     return x;
   };
+  if (!Array.from) {
+    Array.from = function (c) {
+      var a = [];
+      for (var i = 0; i < c.length; i++) {
+        a.push(c[i]);
+      }
+      return a;
+    };
+  }
   var normalize = function normalize(k, v) {
     var reg = /^([a-z]+)([A-Z]{1})([a-z]+)$/;
     var mat = k.match(reg);
@@ -123,14 +136,16 @@
         return queryAll(selector, p);
       };
       var pc = p.classList;
-      p.hasClass = function (className) {
+      p.hasClass = function () {
+        var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
         var c = trim(className, true);
         if (!c) {
           return false;
         }
         return pc.contains(c);
       };
-      p.addClass = function (className) {
+      p.addClass = function () {
+        var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
         var c = trim(className, true);
         if (!c) {
           return false;
@@ -139,7 +154,8 @@
         pc.add.apply(pc, toConsumableArray(a));
         return p;
       };
-      p.removeClass = function (className) {
+      p.removeClass = function () {
+        var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
         var c = trim(className, true);
         if (!c) {
           return false;
@@ -148,7 +164,8 @@
         pc.remove.apply(pc, toConsumableArray(a));
         return p;
       };
-      p.toggleClass = function (className) {
+      p.toggleClass = function () {
+        var className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
         var c = trim(className, true);
         if (!c) {
           return false;
@@ -163,14 +180,17 @@
         }
         return p;
       };
-      p.replaceClass = function (oldClass, newClass) {
+      p.replaceClass = function () {
+        var oldClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+        var newClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
         var o = trim(oldClass, true);
         var n = trim(newClass, true);
         p.removeClass(o);
         p.addClass(n);
         return p;
       };
-      p.setProperty = function (o) {
+      p.setProperty = function () {
+        var o = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         for (var k in o) {
           if (o[k] !== '') {
             var v = o[k];
@@ -184,7 +204,8 @@
       var fixStyle = function fixStyle(s) {
         return s.replace(/;+/gi, ';').replace(/:/gi, ': ') + ';';
       };
-      p.setStyle = function (o) {
+      p.setStyle = function () {
+        var o = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         var a = [];
         if (isObject(o)) {
           for (var k in o) {

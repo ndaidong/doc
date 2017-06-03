@@ -3,8 +3,6 @@
 var fs = require('fs');
 var exec = require('child_process').execSync;
 
-var bella = require('bellajs');
-
 var {
   rollupify,
   writeFile,
@@ -19,8 +17,7 @@ const ENTRY_PATH = './src/main.js';
 const GLOBAL_NAME = 'realdom';
 const OUTPUT_DIR = 'dist';
 
-let date = bella.date();
-let releaseAt = date.utc();
+let releaseAt = (new Date()).toUTCString();
 
 let minHeader = `// ${name}@${version}, by ${author} - built on ${releaseAt} - published under ${license} license`;
 

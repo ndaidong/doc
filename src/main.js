@@ -3,44 +3,26 @@
  * @ndaidong
 **/
 
-var ob2Str = (val) => {
-  return {}.toString.call(val);
-};
+import {
+  isUndefined,
+  isObject,
+  isString,
+  isNumber,
+  isElement,
+  isFunction,
+  trim
+} from 'bellajs';
 
-var isUndefined = (v) => {
-  return v === undefined; // eslint-disable-line no-undefined
-};
 
-var isObject = (v) => {
-  return !isUndefined(v) && typeof v === 'object';
-};
-
-var isString = (v) => {
-  return typeof v === 'string';
-};
-
-var isNumber = (v) => {
-  return typeof v === 'number';
-};
-
-var isElement = (v) => {
-  return ob2Str(v).match(/^\[object HTML\w*Element]$/);
-};
-
-var isFunction = (v) => {
-  return v && ob2Str(v) === '[object Function]';
-};
-
-var trim = (s, all) => {
-  if (!isString(s)) {
-    return '';
-  }
-  let x = s ? s.replace(/^[\s\xa0]+|[\s\xa0]+$/g, '') : s || '';
-  if (x && all) {
-    return x.replace(/\r?\n|\r/g, ' ').replace(/\s\s+|\r/g, ' ');
-  }
-  return x;
-};
+if (!Array.from) {
+  Array.from = (c) => {
+    let a = [];
+    for (let i = 0; i < c.length; i++) {
+      a.push(c[i]);
+    }
+    return a;
+  };
+}
 
 var normalize = (k, v) => {
 
@@ -122,7 +104,7 @@ attachBehaviors = (p) => {
 
     let pc = p.classList;
 
-    p.hasClass = (className) => {
+    p.hasClass = (className = '') => {
       let c = trim(className, true);
       if (!c) {
         return false;
@@ -130,7 +112,7 @@ attachBehaviors = (p) => {
       return pc.contains(c);
     };
 
-    p.addClass = (className) => {
+    p.addClass = (className = '') => {
       let c = trim(className, true);
       if (!c) {
         return false;
@@ -140,7 +122,7 @@ attachBehaviors = (p) => {
       return p;
     };
 
-    p.removeClass = (className) => {
+    p.removeClass = (className = '') => {
       let c = trim(className, true);
       if (!c) {
         return false;
@@ -150,7 +132,7 @@ attachBehaviors = (p) => {
       return p;
     };
 
-    p.toggleClass = (className) => {
+    p.toggleClass = (className = '') => {
       let c = trim(className, true);
       if (!c) {
         return false;
@@ -166,7 +148,7 @@ attachBehaviors = (p) => {
       return p;
     };
 
-    p.replaceClass = (oldClass, newClass) => {
+    p.replaceClass = (oldClass = '', newClass = '') => {
       let o = trim(oldClass, true);
       let n = trim(newClass, true);
       p.removeClass(o);
@@ -174,7 +156,7 @@ attachBehaviors = (p) => {
       return p;
     };
 
-    p.setProperty = (o) => {
+    p.setProperty = (o = {}) => {
       for (let k in o) {
         if (o[k] !== '') {
           let v = o[k];
@@ -190,7 +172,7 @@ attachBehaviors = (p) => {
       return s.replace(/;+/gi, ';').replace(/:/gi, ': ') + ';';
     };
 
-    p.setStyle = (o) => {
+    p.setStyle = (o = {}) => {
 
       let a = [];
       if (isObject(o)) {
