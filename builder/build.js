@@ -23,11 +23,10 @@ let minHeader = `// ${name}@${version}, by ${author} - built on ${releaseAt} - p
 
 let fullHeader = [
   `/**`,
-  ` * ${name}`,
-  ` * v${version}`,
-  ` * built: ${releaseAt}`,
-  ` * ${repository.type}: ${repository.url}`,
-  ` * author: ${author}`,
+  ` * ${name}@${version}`,
+  ` * built on: ${releaseAt}`,
+  ` * repository: ${repository.url}`,
+  ` * maintainer: ${author}`,
   ` * License: ${license}`,
   `**/`
 ].join('\n');
@@ -39,8 +38,14 @@ var release = (output) => {
   exec(`mkdir ${OUTPUT_DIR}`);
 
   writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.js`, [fullHeader, output.code].join('\n'));
-  writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.js`, [minHeader, output.minified].join('\n'));
-  writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.map`, output.map);
+
+  if (output.minified) {
+    writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.js`, [minHeader, output.minified].join('\n'));
+  }
+
+  if (output.map) {
+    writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.map`, output.map);
+  }
 };
 
 
