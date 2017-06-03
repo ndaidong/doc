@@ -17,7 +17,7 @@
   "scripts": {
     "lint": "eslint ./src ./tests",
     "nsp": "nsp check --output checkstyle",
-    "tape": "babel-node node_modules/.bin/tape tests/start.js | tap-spec",
+    "tape": "nyc babel-node node_modules/.bin/tape tests/start.js | tap-spec",
     "report": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "pretest": "npm run lint && npm run nsp",
     "test": "npm run tape",
