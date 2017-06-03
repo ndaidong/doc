@@ -3,7 +3,7 @@ A lightweight DOM & Event manipulation.
 
 [![npm version](https://badge.fury.io/js/realdom.svg)](https://badge.fury.io/js/realdom)
 [![Build Status](https://travis-ci.org/ndaidong/realdom.svg?branch=master)](https://travis-ci.org/ndaidong/realdom)
-[![Coverage Status](https://coveralls.io/repos/github/ndaidong/realdom/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/realdom?branch=master)
+[![codecov](https://codecov.io/gh/ndaidong/realdom/branch/master/graph/badge.svg)](https://codecov.io/gh/ndaidong/realdom)
 [![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/realdom.svg)](https://gemnasium.com/github.com/ndaidong/realdom)
 [![NSP Status](https://nodesecurity.io/orgs/techpush/projects/c17a1b90-3c86-41f1-82fb-0c1f76e71cbb/badge)](https://nodesecurity.io/orgs/techpush/projects/c17a1b90-3c86-41f1-82fb-0c1f76e71cbb)
 
