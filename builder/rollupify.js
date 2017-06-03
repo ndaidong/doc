@@ -1,9 +1,5 @@
 // rollupify
 
-var debug = require('debug');
-var info = debug('pps:info');
-var error = debug('pps:error');
-
 var rollup = require('rollup');
 
 var babel = require('rollup-plugin-babel');
@@ -16,6 +12,7 @@ var {minify} = require('uglify-js');
 const ENV = process.env.NODE_ENV || 'development'; // eslint-disable-line
 
 var jsminify = (source = '') => {
+  console.log('Minifying...');
   return minify(source, {sourceMap: true});
 };
 
@@ -24,7 +21,7 @@ let removeBr = (s) => {
 };
 
 var rollupify = (entry) => {
-  info('Rollup start...');
+  console.log('Rollup start...');
   return rollup.rollup({
     entry,
     plugins: [
@@ -48,14 +45,14 @@ var rollupify = (entry) => {
       cleanup()
     ]
   }).then((bundle) => {
-    info('Generating code with bundle...');
+    console.log('Generating code with bundle...');
     let result = bundle.generate({
       format: 'umd',
       indent: true,
       moduleId: 'PPSW',
       moduleName: 'PPSW'
     });
-    info('Rolling finished.');
+    console.log('Rolling finished.');
 
     let {code} = result;
 
@@ -70,9 +67,11 @@ var rollupify = (entry) => {
         output.map = min.map;
       }
     }
+
+    console.log('Rollupified JS source.');
     return output;
   }).catch((err) => {
-    error(err);
+    console.log(err);
   });
 };
 
