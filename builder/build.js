@@ -40,6 +40,7 @@ var release = (output) => {
 
   writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.js`, [fullHeader, output.code].join('\n'));
   writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.js`, [minHeader, output.minified].join('\n'));
+  writeFile(`${OUTPUT_DIR}/${GLOBAL_NAME}.min.map`, output.map);
 };
 
 

@@ -1,5 +1,5 @@
 {
-  "version": "3.1.2",
+  "version": "3.1.21",
   "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
   "repository": {
@@ -34,7 +34,6 @@
     "babel-preset-env": "1.x.x",
     "babel-preset-es2015-rollup": "3.x.x",
     "codecov": "2.x.x",
-    "debug": "2.x.x",
     "eslint": "3.x.x",
     "eslint-config-ggc": "1.x.x",
     "jsdom": "11.x.x",
