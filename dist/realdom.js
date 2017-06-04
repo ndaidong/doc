@@ -1,13 +1,13 @@
 /**
- * realdom@3.1.22
- * built on: Sat, 03 Jun 2017 15:37:54 GMT
+ * realdom@3.2.0
+ * built on: Sun, 04 Jun 2017 07:06:39 GMT
  * repository: https://github.com/ndaidong/realdom
  * maintainer: @ndaidong
  * License: MIT
 **/
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define('realdom', ['exports'], factory) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (factory((global.realdom = global.realdom || {})));
 }(this, (function (exports) { 'use strict';
   var toConsumableArray = function (arr) {
@@ -90,7 +90,7 @@
   var win = window;
   var doc = document;
   var attachBehaviors;
-  var get$$1 = function get$$1(el) {
+  var get = function get(el) {
     var p = (isString(el) ? doc.getElementById(el) : el) || null;
     if (p && !p.___BEHAVIORS_ATTACHED) {
       return attachBehaviors(p);
@@ -98,20 +98,20 @@
     return p;
   };
   var add = function add(tag, parent) {
-    var p = parent ? get$$1(parent) : doc.body;
+    var p = parent ? get(parent) : doc.body;
     var d = isElement(tag) ? tag : doc.createElement(tag);
     p.appendChild(d);
-    return get$$1(d);
+    return get(d);
   };
   var create = function create(tag) {
-    return get$$1(doc.createElement(tag));
+    return get(doc.createElement(tag));
   };
   var query = function query(selector) {
     var root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : doc;
     var el = void 0;
     var tmp = root.querySelector(selector);
     if (tmp) {
-      el = get$$1(tmp);
+      el = get(tmp);
     }
     return el;
   };
@@ -121,7 +121,7 @@
     var tmp = root.querySelectorAll(selector);
     if (tmp) {
       Array.from(tmp).forEach(function (el) {
-        els.push(get$$1(el));
+        els.push(get(el));
       });
     }
     return els;
@@ -274,7 +274,7 @@
     return {
       on: function on(element, event, fn) {
         if (fn && isFunction(fn)) {
-          var el = isString(element) ? get$$1(element) : element;
+          var el = isString(element) ? get(element) : element;
           if (el && isElement(el)) {
             if (event === 'wheel') {
               event = isGecko ? 'DOMMouseScroll' : 'mousewheel';
@@ -289,7 +289,7 @@
       },
       off: function off(element, event, fn) {
         if (fn && isFunction(fn)) {
-          var el = isString(element) ? get$$1(element) : element;
+          var el = isString(element) ? get(element) : element;
           if (el && isElement(el)) {
             if (el.removeEventListener) {
               el.removeEventListener(event, fn, false);
@@ -301,7 +301,7 @@
       },
       simulate: function simulate(element, event) {
         var evt = void 0;
-        var el = isString(element) ? get$$1(element) : element;
+        var el = isString(element) ? get(element) : element;
         if (doc.createEventObject) {
           evt = doc.createEventObject();
           el.fireEvent('on' + event, evt);
@@ -327,11 +327,11 @@
         if (targ && targ.nodeType === 3) {
           targ = targ.parentNode;
         }
-        return get$$1(targ);
+        return get(targ);
       }
     };
   }();
-  exports.get = get$$1;
+  exports.get = get;
   exports.add = add;
   exports.create = create;
   exports.query = query;
