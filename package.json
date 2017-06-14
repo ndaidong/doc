@@ -1,5 +1,5 @@
 {
-  "version": "3.2.0",
+  "version": "3.2.1",
   "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
   "repository": {
@@ -32,13 +32,13 @@
     "babel-cli": "6.x.x",
     "babel-preset-env": "1.x.x",
     "codecov": "2.x.x",
-    "eslint": "3.x.x",
+    "eslint": "4.x.x",
     "eslint-config-ggc": "1.x.x",
     "gcc-min": "5.x.x",
     "jsdom": "11.x.x",
     "jsdom-global": "3.x.x",
     "nsp": "2.x.x",
-    "nyc": "10.x.x",
+    "nyc": "11.x.x",
     "sinon": "2.x.x",
     "tap-spec": "4.x.x",
     "tape": "4.x.x"
