@@ -14,8 +14,9 @@ A lightweight DOM & Event manipulation.
 
   - [realdom.js](https://rawgit.com/ndaidong/realdom/master/dist/realdom.js)
   - [realdom.min.js](https://rawgit.com/ndaidong/realdom/master/dist/realdom.min.js)
+  - [realdom.min.map](https://rawgit.com/ndaidong/realdom/master/dist/realdom.min.map)
 
-- This library also supports ES6 Module, AMD and UMD style.
+- Also supports ES6 Module, CommonJS, AMD and UMD style.
 
 ### Usage
 
