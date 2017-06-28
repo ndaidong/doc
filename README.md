@@ -55,6 +55,13 @@ import {
   queryAll
 } from 'realdom';
 
+let rows = queryAll('table tr');
+rows.forEach((row) => {
+  row.style.backgroundColor = 'red';
+});
+
+```
+
  - .query(String selectors)
  - .queryAll(String selectors)
  - .get(String ID)
