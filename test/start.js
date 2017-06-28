@@ -2,7 +2,7 @@
 
 var {join} = require('path');
 
-let dir = '../tests/specs/';
+let dir = '../test/specs/';
 [
   'builtTest',
   'apis',
