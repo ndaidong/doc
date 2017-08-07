@@ -1,6 +1,6 @@
 /**
- * realdom@3.2.11
- * built on: Wed, 28 Jun 2017 02:09:15 GMT
+ * realdom@3.2.2
+ * built on: Mon, 07 Aug 2017 06:57:32 GMT
  * repository: https://github.com/ndaidong/realdom
  * maintainer: @ndaidong
  * License: MIT
@@ -8,7 +8,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.realdom = global.realdom || {})));
+  (factory((global.realdom = {})));
 }(this, (function (exports) { 'use strict';
   var toConsumableArray = function (arr) {
     if (Array.isArray(arr)) {
