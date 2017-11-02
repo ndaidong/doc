@@ -5,8 +5,6 @@ var {
   isObject
 } = require('bellajs');
 
-require('jsdom-global')();
-
 var es6RD = require('../../src/main');
 var fullRD = require('../../dist/realdom');
 var minRD = require('../../dist/realdom.min');
