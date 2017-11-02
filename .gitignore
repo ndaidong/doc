@@ -13,3 +13,4 @@ coverage
 
 coverage.lcov
 package-lock.json
+yarn.lock
