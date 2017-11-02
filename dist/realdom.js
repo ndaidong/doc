@@ -1,6 +1,6 @@
 /**
  * realdom@3.2.3
- * built on: Thu, 02 Nov 2017 08:05:35 GMT
+ * built on: Thu, 02 Nov 2017 08:55:35 GMT
  * repository: https://github.com/ndaidong/realdom
  * maintainer: @ndaidong
  * License: MIT
@@ -353,9 +353,8 @@
         return p;
       };
       p.empty = function () {
-        while (p.lastChild) {
-          p.removeChild(p.lastChild);
-        }
+        p.innerHTML = '';
+        return p;
       };
       p.html = function (s) {
         if (isUndefined(s)) {

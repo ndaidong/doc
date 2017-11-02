@@ -2,8 +2,6 @@
 
 var {join} = require('path');
 
-require('jsdom-global')();
-
 let dir = '../test/specs/';
 [
   'builtTest',

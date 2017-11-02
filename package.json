@@ -31,7 +31,7 @@
   "devDependencies": {
     "babel-cli": "6.x.x",
     "babel-preset-env": "1.x.x",
-    "codecov": "2.x.x",
+    "codecov": "3.x.x",
     "eslint": "4.x.x",
     "eslint-config-ggc": "1.x.x",
     "gcc-min": "6.x.x",
@@ -39,7 +39,7 @@
     "jsdom-global": "3.x.x",
     "nsp": "2.x.x",
     "nyc": "11.x.x",
-    "sinon": "3.x.x",
+    "sinon": "4.x.x",
     "tap-spec": "4.x.x",
     "tape": "4.x.x"
   },
