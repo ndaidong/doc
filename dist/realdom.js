@@ -1,6 +1,6 @@
 /**
  * realdom@3.2.3
- * built on: Thu, 02 Nov 2017 10:40:31 GMT
+ * built on: Thu, 02 Nov 2017 11:04:47 GMT
  * repository: https://github.com/ndaidong/realdom
  * maintainer: @ndaidong
  * License: MIT
