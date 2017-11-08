@@ -207,7 +207,9 @@ attachBehaviors = (p) => {
     };
 
     p.empty = () => {
-      p.innerHTML = '';
+      while (p.lastChild) {
+        p.removeChild(p.lastChild);
+      }
       return p;
     };
 
