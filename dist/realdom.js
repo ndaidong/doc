@@ -1,6 +1,6 @@
 /**
- * realdom@4.0.0
- * built on: Sun, 24 May 2020 10:11:14 GMT
+ * realdom@4.0.1
+ * built on: Sun, 24 May 2020 10:42:40 GMT
  * repository: https://github.com/ndaidong/realdom
  * maintainer: @ndaidong
  * License: MIT
@@ -22,11 +22,8 @@
   const isNumber = (val) => {
     return Number(val) === val;
   };
-  const isNull = (val) => {
-    return ob2Str(val) === '[object Null]';
-  };
-  const isUndefined = (val) => {
-    return ob2Str(val) === '[object Undefined]';
+  const isNil = (val) => {
+    return val === null || val === undefined;
   };
   const isFunction = (val) => {
     return ob2Str(val) === '[object Function]';
@@ -37,20 +34,6 @@
   const isElement = (v) => {
     return ob2Str(v).match(/^\[object HTML\w*Element]$/) !== null;
   };
-  const isNil = (val) => {
-    return isUndefined(val) || isNull(val);
-  };
-
-  const now = () => {
-    return new Date();
-  };
-  const tzone = now().getTimezoneOffset();
-  const tz = (() => {
-    const z = Math.abs(tzone / 60);
-    const sign = tzone < 0 ? '+' : '-';
-    return ['GMT', sign, String(z).padStart(4, '0')].join('');
-  })();
-
   const normalize = (k, v) => {
     const reg = /^([a-z]+)([A-Z]{1})([a-z]+)$/;
     const mat = k.match(reg);

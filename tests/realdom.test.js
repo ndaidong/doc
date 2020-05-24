@@ -161,6 +161,9 @@ describe('Check DOM manipulation methods', () => {
       'backgroundColor': 'green',
       'maxWidth': 500,
       'margin-top': '20px',
+      'nonsense': {
+        x: 7,
+      },
     });
     const style = 'font-size: 15px; background-color: green; max-width: 500px; margin-top: 20px;';
     expect(domtest.getAttribute('style')).toBe(style);
