@@ -1,11 +1,9 @@
 # realdom
 A lightweight DOM & Event manipulation.
 
-[![npm version](https://badge.fury.io/js/realdom.svg)](https://badge.fury.io/js/realdom)
+[![NPM](https://badge.fury.io/js/realdom.svg)](https://badge.fury.io/js/realdom)
 [![Build Status](https://travis-ci.org/ndaidong/realdom.svg?branch=master)](https://travis-ci.org/ndaidong/realdom)
-[![codecov](https://codecov.io/gh/ndaidong/realdom/branch/master/graph/badge.svg)](https://codecov.io/gh/ndaidong/realdom)
-[![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/realdom.svg)](https://gemnasium.com/github.com/ndaidong/realdom)
-[![NSP Status](https://nodesecurity.io/orgs/techpush/projects/c17a1b90-3c86-41f1-82fb-0c1f76e71cbb/badge)](https://nodesecurity.io/orgs/techpush/projects/c17a1b90-3c86-41f1-82fb-0c1f76e71cbb)
+[![Coverage Status](https://coveralls.io/repos/github/ndaidong/realdom/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/realdom?branch=master)
 
 
 # Setup
@@ -18,15 +16,16 @@ A lightweight DOM & Event manipulation.
 
 - Also supports ES6 Module, CommonJS, AMD and UMD style.
 
+
 ### Usage
 
 ```
 import {create, add} from 'realdom';
 
-let div = create('DIV');
+const div = create('DIV');
 div.addClass('panel');
 
-let span = add('SPAN', div);
+const span = add('SPAN', div);
 span.html('Hello world');
 // ...
 
@@ -56,7 +55,7 @@ import {
   queryAll
 } from 'realdom';
 
-let rows = queryAll('table tr');
+const rows = queryAll('table tr');
 rows.forEach((row) => {
   row.style.backgroundColor = 'red';
 });
@@ -73,9 +72,9 @@ rows.forEach((row) => {
 Returned elements have several helpful methods as below:
 
  - .hasClass(String className)
- - .addClass(String className)
- - .removeClass(String className)
- - .toggleClass(String className)
+ - .addClass(String className_1, String className_2, ...)
+ - .removeClass(String className_1, String className_2, ...)
+ - .toggleClass(String className_1, String className_2, ...)
  - .replaceClass(String classNameOld, String classNameNew)
  - .setProperty(Object atts)
  - .setStyle(Object style)
@@ -112,28 +111,28 @@ import {
 ready(() => {
 
   // Add a new element to document.body
-  let container = add('DIV');
+  const container = add('DIV');
 
   // then add a DIV element into container
-  let div1 = add('DIV', container);
+  const div1 = add('DIV', container);
 
   // then add a class "sub-item" to child DIV
   div1.addClass('sub-item');
 
   // more a child DIV
-  let div2 = add('DIV', container);
+  const div2 = add('DIV', container);
 
   // also add a class "sub-item"
   div2.addClass('sub-item');
 
   // now, we can extract list of elements by class name:
-  let subItems = all('.sub-item');
+  const subItems = all('.sub-item');
 
   console.log(subItems);
 
 
   // create a button
-  let btn = add('INPUT');
+  const btn = add('INPUT');
 
   // add some attributes
   btn.setProperty({
@@ -156,7 +155,7 @@ ready(() => {
     alert('Hello! How it\'s going?');
   });
 
-  // simulate a click event on there (it works as same as jQuery.trigger method)
+  // simulate/trigger a click event on there
   Event.simulate(btn, 'click');
 
 });
