@@ -3,14 +3,37 @@
  * @ndaidong
 **/
 
-import {
-  isNil,
-  isString,
-  isNumber,
-  isObject,
-  isFunction,
-  isElement,
-} from 'bellajs';
+const ob2Str = (val) => {
+  return {}.toString.call(val);
+};
+
+const isArray = (val) => {
+  return Array.isArray(val);
+};
+
+const isString = (val) => {
+  return String(val) === val;
+};
+
+const isNumber = (val) => {
+  return Number(val) === val;
+};
+
+const isNil = (val) => {
+  return val === null || val === undefined;
+};
+
+const isFunction = (val) => {
+  return ob2Str(val) === '[object Function]';
+};
+
+const isObject = (val) => {
+  return ob2Str(val) === '[object Object]' && !isArray(val);
+};
+
+const isElement = (v) => {
+  return ob2Str(v).match(/^\[object HTML\w*Element]$/) !== null;
+};
 
 const normalize = (k, v) => {
   const reg = /^([a-z]+)([A-Z]{1})([a-z]+)$/;

@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
   "homepage": "https://www.npmjs.com/package/realdom",
@@ -22,10 +22,8 @@
     "test": "jest --verbose --coverage=true --detectOpenHandles",
     "reset": "node reset"
   },
-  "dependencies": {
-    "bellajs": "^9.1.0"
-  },
   "devDependencies": {
+    "bellajs": "^9.1.0",
     "coveralls": "^3.1.0",
     "eslint-config-goes": "^1.1.8",
     "gcc-min": "^7.2.0",
