@@ -1,7 +1,8 @@
 {
-  "version": "3.2.4",
+  "version": "4.0.0",
   "name": "realdom",
   "description": "Lightweight DOM Manipulation library",
+  "homepage": "https://www.npmjs.com/package/realdom",
   "repository": {
     "type": "git",
     "url": "https://github.com/ndaidong/realdom"
@@ -12,50 +13,23 @@
   "jsnext:main": "./src/main",
   "browser": "./dist/realdom.min.js",
   "engines": {
-    "node": ">= 6.0"
+    "node": ">= 10.14.2"
   },
   "scripts": {
-    "lint": "eslint .",
-    "nsp": "nsp check --output checkstyle",
-    "tape": "nyc babel-node node_modules/.bin/tape test/start.js | tap-spec",
-    "report": "nyc report --reporter=lcov > coverage.lcov && codecov",
-    "pretest": "npm run lint && npm run nsp",
-    "test": "npm run tape",
-    "posttest": "CODECOV_TOKEN=e1219af4-205d-47f5-8400-3ef58a7dc746 npm run report",
-    "build": "gccmin -e src/main.js -n realdom -o dist -p package.json",
+    "lint": "eslint ./src",
+    "pretest": "npm run lint && npm run build",
+    "build": "DEBUG=gccmin:* gccmin -e src/main.js -n realdom -o dist -p package.json",
+    "test": "jest --verbose --coverage=true --detectOpenHandles",
     "reset": "node reset"
   },
   "dependencies": {
-    "bellajs": "7.x.x"
+    "bellajs": "^9.1.0"
   },
   "devDependencies": {
-    "babel-cli": "6.x.x",
-    "babel-preset-env": "1.x.x",
-    "codecov": "3.x.x",
-    "eslint": "4.x.x",
-    "eslint-config-ggc": "1.x.x",
-    "gcc-min": "6.x.x",
-    "jsdom": "11.x.x",
-    "jsdom-global": "3.x.x",
-    "nsp": "2.x.x",
-    "nyc": "11.x.x",
-    "sinon": "4.x.x",
-    "tap-spec": "4.x.x",
-    "tape": "4.x.x"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "browsers": [
-              "> 1%"
-            ]
-          }
-        }
-      ]
-    ]
+    "coveralls": "^3.1.0",
+    "eslint-config-goes": "^1.1.8",
+    "gcc-min": "^7.2.0",
+    "jest": "^26.0.1"
   },
   "keywords": [
     "dom",
